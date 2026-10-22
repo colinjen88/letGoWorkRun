@@ -1,6 +1,8 @@
 # 作品集 v3.1 協作交接紀錄
 
-最後更新：2026-09-23
+最後更新：2026-10-22
+
+專案名稱：letGoWorkRun（2026-10-22 由 `worki` 更名；GitHub <https://github.com/colinjen88/letGoWorkRun>，本機 `C:\git_work\letGoWorkRun`）。VPS 上的 `/var/www/html/worki` 路徑刻意維持舊名，詳見根目錄 `README.md`。
 
 目前分支：`master`
 

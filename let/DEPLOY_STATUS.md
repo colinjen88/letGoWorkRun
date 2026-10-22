@@ -5,6 +5,8 @@
 - **目標伺服器**: 72.62.66.151 (VPS)
 - **狀態**: ✅ 已成功部署
 
+> 2026-10-22：專案與 GitHub 倉庫已更名為 letGoWorkRun。本文件中 VPS 上的 `/var/www/html/worki` 是伺服器實際路徑，**未**隨之更名，請勿單獨修改。
+
 ## 🚧 已完成進度
 1. **GitHub 同步**: 本地代碼（包含最新的 CSS 抽取、分類篩選更新）已全部推送到 GitHub `master` 分支。
 2. **部署腳本**: 已建立自動化 PowerShell 部署腳本 (`deploy_vps_let.ps1`)。
