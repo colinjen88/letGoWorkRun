@@ -1,7 +1,7 @@
 # 部署狀態與操作手冊 (2026-02-20 更新)
 
-- **專案名稱**: WANG's Portfolio (let.gowork.run)
-- **當前位置**: `c:\git_work\worki\let\`
+- **專案名稱**: letGoWorkRun — WANG's Portfolio (let.gowork.run)
+- **當前位置**: `c:\git_work\letGoWorkRun\let\`
 - **目標伺服器**: 72.62.66.151 (VPS)
 - **狀態**: ✅ 已成功部署
 
