@@ -60,7 +60,7 @@
 - 最新遠端 `let/deploy_vps_let.ps1` 的 IP 是 `72.62.66.151`。前一輪看到的 `145.79.28.71` 是舊本機腳本；不應據此認定新版部署文件必然指錯主機。
 - 公開回應經 Cloudflare，並包含 `Via: 1.1 Caddy`。這只證明回應鏈上的訊號，不能直接推出 origin 主機、Nginx 是否仍在運作，或 Cloudflare 的 SSL 模式。
 
-原始碼證據以 [遠端基準樹](https://github.com/colinjen88/worki/tree/e62be5f3bc98cb37ea025488764e48c3fa300463) 為準；不可把本機舊版行號當成最新版行號。
+原始碼證據以 [遠端基準樹](https://github.com/colinjen88/letGoWorkRun/tree/e62be5f3bc98cb37ea025488764e48c3fa300463) 為準；不可把本機舊版行號當成最新版行號。
 
 ## 3. 現況診斷：哪些地方影響求職說服力
 
@@ -105,7 +105,7 @@
 | 動畫 WebP 檔約 4.29 MB、另一檔約 0.63 MB | 轉 WebP 不等於已足夠輕量 | 海報圖先顯示、按需下載動畫或影片 |
 | `build:css` 輸出根目錄 assets，但正式站使用 let/assets | 未見腳本明確保證同步 | 建置產物唯一、禁止人工複製當長期流程 |
 
-程式證據：[HTML](https://github.com/colinjen88/worki/blob/e62be5f3bc98cb37ea025488764e48c3fa300463/let/index.html)、[JS](https://github.com/colinjen88/worki/blob/e62be5f3bc98cb37ea025488764e48c3fa300463/let/assets/main.js)、[CSS](https://github.com/colinjen88/worki/blob/e62be5f3bc98cb37ea025488764e48c3fa300463/let/assets/portfolio.css)。這是程式審視與風險推導；快速篩選、CDN 失敗等尚未逐項重現。
+程式證據：[HTML](https://github.com/colinjen88/letGoWorkRun/blob/e62be5f3bc98cb37ea025488764e48c3fa300463/let/index.html)、[JS](https://github.com/colinjen88/letGoWorkRun/blob/e62be5f3bc98cb37ea025488764e48c3fa300463/let/assets/main.js)、[CSS](https://github.com/colinjen88/letGoWorkRun/blob/e62be5f3bc98cb37ea025488764e48c3fa300463/let/assets/portfolio.css)。這是程式審視與風險推導；快速篩選、CDN 失敗等尚未逐項重現。
 
 ### 3.4 對既有規劃的取捨
 
@@ -806,6 +806,6 @@ Dialog 依 [W3C APG Modal Dialog Pattern](https://www.w3.org/WAI/ARIA/apg/patter
 
 - [Brittany Chiang](https://brittanychiang.com/)、[Paco Coursey](https://paco.me/)、[Josh W. Comeau](https://www.joshwcomeau.com/)、[Bruno Simon](https://bruno-simon.com/) — 第 5 節的質性參考。
 - [DODO HSU：104 履歷改版案例](https://pda.104.com.tw/resumes/1YscVIYkn60/portfolio/8qeb2eRReLvDkRI3x6TnCo) — 台灣產品設計與協作敘事。
-- [WANG 現站](https://let.gowork.run/) 與 [遠端提交基準](https://github.com/colinjen88/worki/tree/e62be5f3bc98cb37ea025488764e48c3fa300463) — 現況事實。
+- [WANG 現站](https://let.gowork.run/) 與 [遠端提交基準](https://github.com/colinjen88/letGoWorkRun/tree/e62be5f3bc98cb37ea025488764e48c3fa300463) — 現況事實。
 
 本計劃中的文案、色彩、排序、工期與技術優先順序屬針對本專案的建議；尚未進行的研究、量測與訪談均已標示，實作後需以結果更新。
