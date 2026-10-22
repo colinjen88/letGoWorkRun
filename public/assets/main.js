@@ -27,9 +27,6 @@ window.openVideo = function (videoId) {
     }
 
     document.body.style.overflow = 'hidden'; // Prevent scrolling
-
-    // Update icons
-    if (window.lucide) lucide.createIcons();
 };
 
 function closeVideo() {
@@ -58,7 +55,13 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ===== Loading Screen Dismissal =====
-window.addEventListener('load', () => {
+// Hide on window load, but never keep content covered longer than LOADER_MAX_MS
+const LOADER_MAX_MS = 1200;
+let loaderDismissed = false;
+
+function dismissLoader() {
+    if (loaderDismissed) return;
+    loaderDismissed = true;
     const loader = document.getElementById('loading-screen');
     if (loader) {
         setTimeout(() => {
@@ -68,7 +71,10 @@ window.addEventListener('load', () => {
             }, 500);
         }, 100);
     }
-});
+}
+
+window.addEventListener('load', dismissLoader);
+setTimeout(dismissLoader, LOADER_MAX_MS);
 
 // ===== Lazy GIF Loading with Intersection Observer =====
 const gifObserver = new IntersectionObserver((entries) => {
@@ -268,8 +274,7 @@ const trailManager = {
             trail.x += (prevX - trail.x) * 0.3;
             trail.y += (prevY - trail.y) * 0.3;
 
-            trail.element.style.left = trail.x + 'px';
-            trail.element.style.top = trail.y + 'px';
+            trail.element.style.transform = `translate3d(${trail.x}px, ${trail.y}px, 0) translate(-50%, -50%)`;
 
             prevX = trail.x;
             prevY = trail.y;
@@ -298,6 +303,10 @@ const IDLE_THRESHOLD = 2000;
 let isIdle = false;
 let frameCount = 0;
 
+function hasActiveTweens() {
+    return gsap.globalTimeline.getChildren(true, true, false).some(t => t.isActive());
+}
+
 function updateActivity() {
     if (isIdle) {
         isIdle = false;
@@ -310,6 +319,7 @@ window.addEventListener('mousemove', updateActivity, { passive: true });
 window.addEventListener('scroll', updateActivity, { passive: true });
 window.addEventListener('keydown', updateActivity, { passive: true });
 window.addEventListener('touchstart', updateActivity, { passive: true });
+window.addEventListener('pointerdown', updateActivity, { passive: true });
 
 // Single loop for ALL visual updates — cursor trail is now inside here
 gsap.ticker.add((time) => {
@@ -318,6 +328,11 @@ gsap.ticker.add((time) => {
     if (!lenis.isScrolling && Date.now() - lastActivity > IDLE_THRESHOLD) {
         if (!isIdle) {
             isIdle = true;
+        }
+        // Stop the rAF loop entirely while nothing is animating; any input wakes it
+        if (!hasActiveTweens()) {
+            gsap.ticker.sleep();
+            return;
         }
     }
 
@@ -333,13 +348,6 @@ gsap.ticker.add((time) => {
         }
     }
 });
-
-// Initialize Icons after DOM is ready
-if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-} else {
-    console.warn('Lucide Icons not loaded — icons may not render.');
-}
 
 // ===== GSAP ScrollTrigger Animations (Delayed Init) =====
 window.addEventListener('load', () => {
@@ -416,26 +424,20 @@ const menuBtn = document.getElementById('mobile-menu-btn');
 const mobileMenu = document.getElementById('mobile-menu');
 let isMenuOpen = false;
 
-menuBtn.addEventListener('click', () => {
-    isMenuOpen = !isMenuOpen;
-    if (isMenuOpen) {
-        mobileMenu.classList.remove('hidden');
-        menuBtn.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
-    } else {
-        mobileMenu.classList.add('hidden');
-        menuBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
-    }
-    lucide.createIcons();
-});
+function setMenuOpen(open) {
+    isMenuOpen = open;
+    mobileMenu.classList.toggle('hidden', !open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+    menuBtn.querySelector('.menu-icon-open')?.classList.toggle('hidden', open);
+    menuBtn.querySelector('.menu-icon-close')?.classList.toggle('hidden', !open);
+}
+
+menuBtn.addEventListener('click', () => setMenuOpen(!isMenuOpen));
 
 // Close mobile menu on link click
 document.querySelectorAll('#mobile-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-        isMenuOpen = false;
-        mobileMenu.classList.add('hidden');
-        menuBtn.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
-        lucide.createIcons();
-    });
+    link.addEventListener('click', () => setMenuOpen(false));
 });
 
 // ===== Smooth Scroll for Nav Links =====
@@ -453,25 +455,69 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             });
 
             // Close mobile menu if open
-            if (isMenuOpen) {
-                isMenuOpen = false;
-                document.getElementById('mobile-menu').classList.add('hidden');
-                document.getElementById('mobile-menu-btn').innerHTML = '<i data-lucide="menu" class="w-5 h-5"></i>';
-                lucide.createIcons();
-            }
+            if (isMenuOpen) setMenuOpen(false);
         }
     });
 });
 
-// ===== Scroll Progress Bar =====
+// ===== Scroll Progress Bar & Back to Top =====
 const progressBar = document.getElementById('scroll-progress');
-if (progressBar) {
-    window.addEventListener('scroll', () => {
-        const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = (scrollTop / docHeight) * 100;
-        progressBar.style.width = progress + '%';
-    }, { passive: true });
+const goTopBtn = document.getElementById('go-top');
+const goTopRing = goTopBtn?.querySelector('.go-top-ring-bar');
+const GO_TOP_THRESHOLD = 600;
+let scrollRange = 1;
+let scrollTicking = false;
+
+function measureScrollRange() {
+    scrollRange = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+}
+
+function renderScrollState() {
+    scrollTicking = false;
+    const scrollTop = window.scrollY;
+    const progress = Math.min(1, scrollTop / scrollRange);
+
+    if (progressBar) progressBar.style.transform = `scaleX(${progress})`;
+
+    if (goTopBtn) {
+        const visible = scrollTop > GO_TOP_THRESHOLD;
+        if (visible !== goTopBtn.classList.contains('is-visible')) {
+            goTopBtn.classList.toggle('is-visible', visible);
+            goTopBtn.tabIndex = visible ? 0 : -1;
+        }
+        if (goTopRing) goTopRing.style.strokeDashoffset = String(100 - progress * 100);
+    }
+}
+
+function requestScrollRender() {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(renderScrollState);
+}
+
+function remeasureScroll() {
+    measureScrollRange();
+    requestScrollRender();
+}
+
+remeasureScroll();
+window.addEventListener('scroll', requestScrollRender, { passive: true });
+window.addEventListener('resize', remeasureScroll, { passive: true });
+window.addEventListener('load', remeasureScroll);
+if ('ResizeObserver' in window) {
+    new ResizeObserver(remeasureScroll).observe(document.body);
+}
+
+if (goTopBtn) {
+    goTopBtn.addEventListener('click', () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            window.scrollTo(0, 0);
+        } else {
+            updateActivity(); // Lenis animates on the GSAP ticker, which may be asleep
+            lenis.scrollTo(0, { duration: 1 });
+        }
+        goTopBtn.blur();
+    });
 }
 
 // ===== Typewriter Effect =====
