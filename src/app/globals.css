@@ -2007,6 +2007,82 @@ p { text-wrap: pretty; }
 }
 .admin-section > .section-intro { margin: 0 0 1.75rem; max-width: 46rem; }
 
+.goldlab-facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.goldlab-fact {
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 1rem;
+  background: var(--surface-card);
+}
+.goldlab-fact strong {
+  display: block;
+  color: var(--brand-strong);
+  font-size: 1.75rem;
+  font-weight: 850;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.goldlab-fact span { color: var(--text-secondary); font-size: .84rem; font-weight: 650; }
+.goldlab-stack {
+  margin: 0 0 1.75rem;
+  color: var(--text-tertiary);
+  font-size: .82rem;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+.goldlab-modules {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.goldlab-module { padding: 1.4rem; }
+.goldlab-module:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.goldlab-module__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .5rem;
+  margin-bottom: .75rem;
+}
+.goldlab-module__head h3 { margin: 0; font-size: 1.1rem; font-weight: 800; }
+.goldlab-module__head code {
+  border-radius: .35rem;
+  padding: .1rem .45rem;
+  background: var(--surface-muted);
+  color: var(--text-tertiary);
+  font-size: .74rem;
+}
+.goldlab-module ul { margin: 0; padding-left: 1.1rem; color: var(--text-secondary); font-size: .88rem; }
+.goldlab-module li + li { margin-top: .4rem; }
+.goldlab-subhead { margin: 2.25rem 0 1rem; font-size: 1.15rem; font-weight: 800; }
+.goldlab-pipeline {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: .75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: pipe;
+}
+.goldlab-pipeline li {
+  position: relative;
+  padding: .9rem 1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: .85rem;
+  background: var(--surface-card-subtle);
+  counter-increment: pipe;
+}
+.goldlab-pipeline li:nth-child(4) { border-color: var(--status-pm); background: var(--status-pm-bg); }
+.goldlab-pipeline strong { display: block; font-size: .9rem; font-weight: 800; }
+.goldlab-pipeline strong::before { content: counter(pipe) ". "; color: var(--brand); }
+.goldlab-pipeline span { color: var(--text-secondary); font-size: .8rem; }
+.goldlab-links { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; }
+
 .admin-systems {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2317,6 +2393,9 @@ p { text-wrap: pretty; }
 
 @media (max-width: 960px) {
   .admin-systems, .admin-process, .admin-principles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .goldlab-modules { grid-template-columns: 1fr; }
+  .goldlab-pipeline { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .goldlab-pipeline li:last-child { grid-column: 1 / -1; }
   .fab-body { grid-template-columns: 1fr; }
   .fab-panel { border-left: 0; border-top: 1px solid var(--border-subtle); max-height: none; }
 }
@@ -2325,7 +2404,8 @@ p { text-wrap: pretty; }
   .featured-lead .feature-card__image { flex: none; border-right: 0; border-bottom: 1px solid var(--border-subtle); }
 }
 @media (max-width: 620px) {
-  .admin-systems, .admin-process, .admin-principles { grid-template-columns: 1fr; }
+  .admin-systems, .admin-process, .admin-principles, .goldlab-pipeline { grid-template-columns: 1fr; }
+  .goldlab-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .admin-map__row { grid-template-columns: 1fr; gap: .35rem; }
   .admin-map__row--head { display: none; }
   .fab-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }

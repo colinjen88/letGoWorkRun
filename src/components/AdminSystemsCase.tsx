@@ -9,8 +9,76 @@ type SystemEntry = {
   modules: string[];
   patterns: string[];
   href: string;
-  external?: boolean;
 };
+
+const goldlabFacts = [
+  { value: "64", label: "支 API 端點" },
+  { value: "25", label: "個自動化測試檔" },
+  { value: "220+", label: "次版本提交" },
+  { value: "9", label: "種英文版流程狀態" },
+];
+
+const goldlabModules = [
+  {
+    title: "文章管理後台",
+    route: "/editorrr",
+    points: [
+      "統計卡片＋「全部／已發佈／草稿與排程／回收桶」狀態分頁，再細分草稿與排程中",
+      "關鍵字搜尋、分類篩選、依更新時間／置頂／標題排序，可調整每頁筆數",
+      "選取本頁後批次發佈、轉草稿、置頂、排程或移到回收桶，執行前顯示筆數確認",
+      "批次結果回報「成功幾筆、失敗幾筆」，部分失敗不會被當成全部成功",
+      "一鍵建立文章備份快照；回收桶保留 30 天，可還原或永久刪除",
+    ],
+  },
+  {
+    title: "文章編輯器",
+    route: "/editorrr/:id",
+    points: [
+      "發布前檢查清單：標題、Slug、SEO 摘要、分類、關鍵字、封面、圖片 Alt、內文、作者，缺一項就擋下發布並列出缺漏",
+      "側欄可收合：文章狀態、發佈資訊、全域設定、SEO 分析與社群分享預覽",
+      "結構化資料（Schema）自動同步、關鍵字出現次數統計、FAQ 與結構化內容編輯",
+      "媒體庫支援拖放上傳（JPG／PNG／WEBP，5MB 上限）與刪除",
+      "快速儲存、存為草稿、發布更新三種儲存層級",
+    ],
+  },
+  {
+    title: "英文版管理",
+    route: "/editorrr/english",
+    points: [
+      "中英文對照表格，以 9 種狀態篩選：尚無英文、草稿、待 QA 核准、可發布、等中文發布、已發布、中文已更新、已下架",
+      "中文原文修改後，自動把對應英文標為「中文已更新」，避免兩邊內容不一致",
+      "中文還是草稿時，英文可先完成發布程序，等中文發布後自動公開",
+      "每次發布都留下 release 紀錄，可預覽並一鍵回滾到前一版",
+    ],
+  },
+  {
+    title: "AI 草稿人工審核佇列",
+    route: "/editorrr/golder-queue",
+    points: [
+      "系統自動產生的評論筆記，若偵測到明顯 AI 語氣，或涉及聯準會官員、政治人物、市場操作等高風險內容，會先進入待審佇列",
+      "編輯在後台逐筆核准或退回，處理完即從佇列移除",
+      "每日自動產生的市場分析預設存為草稿，必須經後台審核才發布",
+    ],
+  },
+  {
+    title: "安全與維運",
+    route: "/api/admin/*",
+    points: [
+      "JWT 驗證（24 小時效期）、bcrypt 密碼雜湊；同一 IP 登入失敗 5 次鎖定 15 分鐘",
+      "健康檢查 API 回報文章數、回收桶數量與最舊天數、備份數、殘留暫存檔、新聞快取時間與運行時間",
+      "部署流程依序為備份、建置、切換、健康檢查；建置失敗不影響線上網站，文章與上傳檔案不會被覆蓋",
+      "後台頁面一律 noindex，前台與後台共用同一套 API 與權限檢查",
+    ],
+  },
+];
+
+const goldlabPipeline = [
+  { step: "抓取", body: "17 個 RSS 來源，每 15 分鐘排程" },
+  { step: "整理", body: "擷取全文、分段翻譯、多個服務依序備援" },
+  { step: "AI 產生", body: "相關新聞產生評論筆記，每日 08:00 產生分析" },
+  { step: "人工把關", body: "可疑內容進審核佇列，分析預設為草稿" },
+  { step: "發布", body: "前台列表與文章頁，含結構化資料" },
+];
 
 const systems: SystemEntry[] = [
   {
@@ -28,23 +96,6 @@ const systems: SystemEntry[] = [
     modules: ["概覽管理", "網站內容", "文章管理", "帳號與安全"],
     patterns: ["草稿預覽後再發布", "自動保留近 20 個版本", "匯出／匯入備份"],
     href: "/work/zyfloral/",
-  },
-  {
-    name: "GoldLab 文章管理中心",
-    type: "資料列表型後台",
-    stack: "前台 + 文章後台",
-    modules: ["統計卡片", "狀態分頁", "關鍵字搜尋", "分類篩選", "可排序表格"],
-    patterns: ["勾選批次操作", "資源回收筒（軟刪除）", "排程發布與 SEO 欄位"],
-    href: "/work/goldlab/",
-  },
-  {
-    name: "Goldlab.cloud 即時行情監控",
-    type: "即時監控看板",
-    stack: "WebSocket + 多來源聚合",
-    modules: ["市場概覽", "多來源報價卡", "異常日誌", "管理端"],
-    patterns: ["連線狀態指示", "各來源延遲（ms）", "「上次更新」資料新鮮度"],
-    href: "https://goldlab.cloud/",
-    external: true,
   },
   {
     name: "穀意 GoodEats 前／後台規劃",
@@ -91,8 +142,24 @@ const processSteps = [
 
 const mappings = [
   {
-    from: "Goldlab.cloud：WebSocket 連線狀態、各來源延遲與上次更新時間",
-    to: "機台狀態看板：標示資料新鮮度，資料過期時降低視覺權重並提示",
+    from: "GoldLab：發布前檢查清單，必填項目未完成就擋下並列出缺漏",
+    to: "工單、參數設定送出前的完整性檢核，不完整就不能送出，並指出缺哪一欄",
+  },
+  {
+    from: "GoldLab：AI 自動產生的內容，可疑項目先進人工審核佇列",
+    to: "系統自動判定的結果（例如自動缺陷分類）需工程師確認才生效",
+  },
+  {
+    from: "GoldLab：英文版 9 種狀態、來源更新自動標示過期、release 紀錄與回滾",
+    to: "配方與文件的版本流程：狀態清楚、上游變更時標示受影響項目、可回到前一版",
+  },
+  {
+    from: "GoldLab：批次操作前顯示筆數確認，結果回報成功與失敗筆數",
+    to: "批次派工或批次結案：先確認範圍，部分失敗時明確列出哪些沒成功",
+  },
+  {
+    from: "GoldLab：健康檢查 API 與先備份再切換的部署流程",
+    to: "系統狀態儀表板與維運紀錄，異常時能快速定位、不影響產線作業",
   },
   {
     from: "大內御指：管理者／技師／會員分流入口",
@@ -105,10 +172,6 @@ const mappings = [
   {
     from: "植園花室：草稿預覽、版本保留、匯出備份",
     to: "參數與設定變更：先預覽差異再套用，保留版本可回溯",
-  },
-  {
-    from: "GoldLab：批次操作、資源回收筒、狀態分頁",
-    to: "工單與異常單批次處理：防誤刪、可復原，依處理狀態分流",
   },
 ];
 
@@ -150,10 +213,63 @@ export function AdminSystemsCase() {
   return (
     <div className="admin-case">
       <section className="admin-section">
-        <p className="eyebrow">Experience map</p>
-        <h2>做過的五套後台</h2>
+        <p className="eyebrow">Main case</p>
+        <h2>主案例：GoldLab 編輯後台</h2>
         <p className="section-intro">
-          以下為作品集中已完成的後台與管理介面，依類型整理模組與可延用的設計模式。
+          GoldLab 是持續維運中的貴金屬資訊網站，從前台、後台、API、自動化內容管線到部署都由我規劃與實作。後台讓編輯管理中英文文章、審核系統自動產生的內容，並掌握系統狀態。
+        </p>
+        <div className="goldlab-facts">
+          {goldlabFacts.map((fact) => (
+            <div className="goldlab-fact" key={fact.label}>
+              <strong>{fact.value}</strong>
+              <span>{fact.label}</span>
+            </div>
+          ))}
+        </div>
+        <p className="goldlab-stack">
+          React 18・Vite・Tailwind CSS・React Router・Express・JWT・Node.js 測試・Docker／VPS 部署
+        </p>
+
+        <div className="goldlab-modules">
+          {goldlabModules.map((module) => (
+            <article className="card goldlab-module" key={module.title}>
+              <div className="goldlab-module__head">
+                <h3>{module.title}</h3>
+                <code>{module.route}</code>
+              </div>
+              <ul>
+                {module.points.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+
+        <h3 className="goldlab-subhead">自動化內容管線與人工把關</h3>
+        <ol className="goldlab-pipeline">
+          {goldlabPipeline.map((item) => (
+            <li key={item.step}>
+              <strong>{item.step}</strong>
+              <span>{item.body}</span>
+            </li>
+          ))}
+        </ol>
+        <div className="goldlab-links">
+          <Link className="button button--secondary button--sm" href="/work/goldlab/" prefetch={false}>
+            GoldLab 前台案例 <ArrowUpRight size={14} />
+          </Link>
+          <a className="button button--quiet button--sm" href="https://goldlab.tw/" target="_blank" rel="noopener noreferrer">
+            goldlab.tw <ArrowUpRight size={14} />
+          </a>
+        </div>
+      </section>
+
+      <section className="admin-section">
+        <p className="eyebrow">Other systems</p>
+        <h2>其他後台作品</h2>
+        <p className="section-intro">
+          不同類型的後台各有重點：營運排班、內容管理與前後端分離架構。
         </p>
         <div className="admin-systems">
           {systems.map((system) => (
@@ -181,15 +297,9 @@ export function AdminSystemsCase() {
                   ))}
                 </ul>
               </div>
-              {system.external ? (
-                <a className="button button--quiet button--sm" href={system.href} target="_blank" rel="noopener noreferrer">
-                  前往網站 <ArrowUpRight size={14} />
-                </a>
-              ) : (
-                <Link className="button button--quiet button--sm" href={system.href} prefetch={false}>
-                  查看案例 <ArrowUpRight size={14} />
-                </Link>
-              )}
+              <Link className="button button--quiet button--sm" href={system.href} prefetch={false}>
+                查看案例 <ArrowUpRight size={14} />
+              </Link>
             </article>
           ))}
         </div>
