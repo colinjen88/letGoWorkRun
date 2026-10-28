@@ -1,378 +1,240 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { AdminCaseToc, type TocItem } from "@/components/AdminCaseToc";
 import { FabConsoleDemo } from "@/components/FabConsoleDemo";
 
-type SystemEntry = {
-  name: string;
-  type: string;
-  stack: string;
-  modules: string[];
-  patterns: string[];
-  href: string;
+const toc: TocItem[] = [
+  { id: "goldlab", label: "GoldLab 編輯後台" },
+  { id: "other-systems", label: "其他後台" },
+  { id: "method", label: "我怎麼規劃後台" },
+  { id: "manufacturing", label: "放到製造現場" },
+  { id: "concept-demo", label: "概念 Demo" },
+];
+
+type Feature = {
+  title: string;
+  body: string;
+  notes: string[];
+  image: { src: string; width: number; height: number; alt: string };
 };
 
-const goldlabFacts = [
-  { value: "64", label: "支 API 端點" },
-  { value: "25", label: "個自動化測試檔" },
-  { value: "220+", label: "次版本提交" },
-  { value: "9", label: "種英文版流程狀態" },
-];
-
-const goldlabModules = [
+const goldlabFeatures: Feature[] = [
   {
-    title: "文章管理後台",
-    route: "/editorrr",
-    points: [
-      "統計卡片＋「全部／已發佈／草稿與排程／回收桶」狀態分頁，再細分草稿與排程中",
-      "關鍵字搜尋、分類篩選、依更新時間／置頂／標題排序，可調整每頁筆數",
-      "選取本頁後批次發佈、轉草稿、置頂、排程或移到回收桶，執行前顯示筆數確認",
-      "批次結果回報「成功幾筆、失敗幾筆」，部分失敗不會被當成全部成功",
-      "一鍵建立文章備份快照；回收桶保留 30 天，可還原或永久刪除",
-    ],
+    title: "文章列表",
+    body: "編輯每天最常停留的頁面。上方四個數字回答「現在有多少要處理」，下方用狀態分頁切出已發佈、草稿與排程、回收桶。",
+    notes: ["篩選、排序與每頁筆數放在同一列，不必展開進階搜尋", "刪除先進回收桶，保留 30 天可以還原"],
+    image: { src: "/assets/admin/goldlab_admin_dashboard.webp", width: 1600, height: 911, alt: "GoldLab 文章管理後台，統計卡片、狀態分頁與篩選列" },
   },
   {
-    title: "文章編輯器",
-    route: "/editorrr/:id",
-    points: [
-      "發布前檢查清單：標題、Slug、SEO 摘要、分類、關鍵字、封面、圖片 Alt、內文、作者，缺一項就擋下發布並列出缺漏",
-      "側欄可收合：文章狀態、發佈資訊、全域設定、SEO 分析與社群分享預覽",
-      "結構化資料（Schema）自動同步、關鍵字出現次數統計、FAQ 與結構化內容編輯",
-      "媒體庫支援拖放上傳（JPG／PNG／WEBP，5MB 上限）與刪除",
-      "快速儲存、存為草稿、發布更新三種儲存層級",
-    ],
+    title: "批次操作",
+    body: "勾選後操作列從底部浮出，顯示選了幾篇、其中幾篇已發佈或置頂，讓人在按下去之前知道會影響什麼。",
+    notes: ["執行前再確認一次篇數", "部分失敗會分開回報成功與失敗筆數，不會只顯示「完成」"],
+    image: { src: "/assets/admin/goldlab_admin_batch.webp", width: 1600, height: 800, alt: "勾選三篇文章後出現的批次操作列" },
   },
   {
-    title: "英文版管理",
-    route: "/editorrr/english",
-    points: [
-      "中英文對照表格，以 9 種狀態篩選：尚無英文、草稿、待 QA 核准、可發布、等中文發布、已發布、中文已更新、已下架",
-      "中文原文修改後，自動把對應英文標為「中文已更新」，避免兩邊內容不一致",
-      "中文還是草稿時，英文可先完成發布程序，等中文發布後自動公開",
-      "每次發布都留下 release 紀錄，可預覽並一鍵回滾到前一版",
-    ],
+    title: "編輯器與發布檢查",
+    body: "內文、SEO 欄位與發布設定放在同一頁，右側設定欄可以收合。底部的發布前檢查列出九個必填項目，缺一項就不能發布，並直接告訴編輯缺哪一欄。",
+    notes: ["作者與發布品牌可存成設定檔，一鍵套用", "結構化資料跟著內容自動同步"],
+    image: { src: "/assets/admin/goldlab_admin_editor.webp", width: 1600, height: 1200, alt: "GoldLab 文章編輯器，SEO 摘要與發布前檢查清單" },
   },
   {
-    title: "AI 草稿人工審核佇列",
-    route: "/editorrr/golder-queue",
-    points: [
-      "系統自動產生的評論筆記，若偵測到明顯 AI 語氣，或涉及聯準會官員、政治人物、市場操作等高風險內容，會先進入待審佇列",
-      "編輯在後台逐筆核准或退回，處理完即從佇列移除",
-      "每日自動產生的市場分析預設存為草稿，必須經後台審核才發布",
-    ],
+    title: "英文版流程",
+    body: "中英文對照放在同一張表。英文稿有九種狀態，中文原文一改，對應的英文會自動標成「中文已更新」，不會有人在不知情下發布過期翻譯。",
+    notes: ["中文還是草稿時，英文可以先走完流程，等中文發布後一起公開", "每次發布都留紀錄，可以回到上一版"],
+    image: { src: "/assets/admin/goldlab_admin_english.webp", width: 1600, height: 956, alt: "GoldLab 英文版管理，狀態篩選與中英文對照表" },
   },
   {
-    title: "安全與維運",
-    route: "/api/admin/*",
-    points: [
-      "JWT 驗證（24 小時效期）、bcrypt 密碼雜湊；同一 IP 登入失敗 5 次鎖定 15 分鐘",
-      "健康檢查 API 回報文章數、回收桶數量與最舊天數、備份數、殘留暫存檔、新聞快取時間與運行時間",
-      "部署流程依序為備份、建置、切換、健康檢查；建置失敗不影響線上網站，文章與上傳檔案不會被覆蓋",
-      "後台頁面一律 noindex，前台與後台共用同一套 API 與權限檢查",
-    ],
+    title: "AI 草稿審核",
+    body: "網站會用 AI 替國際新聞寫短評。語氣太像 AI，或內容牽涉央行官員、政治人物的發言時，這則短評不會直接上線，而是進到這個佇列等人判斷。",
+    notes: ["每筆標出被攔下的原因與使用的模型", "每天自動產生的市場分析一律先存草稿"],
+    image: { src: "/assets/admin/goldlab_admin_queue.webp", width: 1600, height: 733, alt: "GoldLab 觀察筆記待審佇列，含高敏感標記與核准、拒絕按鈕" },
   },
 ];
 
-const goldlabPipeline = [
-  { step: "抓取", body: "17 個 RSS 來源，每 15 分鐘排程" },
-  { step: "整理", body: "擷取全文、分段翻譯、多個服務依序備援" },
-  { step: "AI 產生", body: "相關新聞產生評論筆記，每日 08:00 產生分析" },
-  { step: "人工把關", body: "可疑內容進審核佇列，分析預設為草稿" },
-  { step: "發布", body: "前台列表與文章頁，含結構化資料" },
-];
-
-const systems: SystemEntry[] = [
+const otherSystems = [
   {
-    name: "大內御指 預約與排班後台（試做）",
-    type: "營運管理後台",
-    stack: "Nuxt 3",
-    modules: ["預約總覽儀表板", "訂單查詢", "行事曆", "技師管理", "休假管理", "系統設定"],
-    patterns: ["管理者／技師／會員三種入口", "KPI 卡片 + 趨勢圖 + 最新紀錄", "排班與休假資料串接"],
+    name: "大內御指 預約與排班後台",
+    note: "試做專案",
+    body: "管理者、技師、會員分成三個入口。管理端以當日與近 30 天營收、最新預約為首頁，另有技師管理與休假管理。",
     href: "/work/royal/",
+    image: { src: "/assets/royaltouch/royal04.webp", width: 900, height: 573 },
   },
   {
     name: "植園花室 網站管理",
-    type: "內容管理後台（CMS）",
-    stack: "前台 + 管理後台",
-    modules: ["概覽管理", "網站內容", "文章管理", "帳號與安全"],
-    patterns: ["草稿預覽後再發布", "自動保留近 20 個版本", "匯出／匯入備份"],
+    note: "內容管理後台",
+    body: "店家自己改首頁文案與 SEO 資訊。改完可以先預覽草稿，正式儲存後自動保留最近 20 個版本，也能匯出備份。",
     href: "/work/zyfloral/",
+    image: { src: "/assets/zyfloral/zyfloral04.webp", width: 1024, height: 746 },
   },
   {
-    name: "穀意 GoodEats 前／後台規劃",
-    type: "架構規劃與開發介紹",
-    stack: "React 18 + PHP API（Headless）",
-    modules: ["Admin 規劃", "系統架構", "功能清單", "開發時間軸"],
-    patterns: ["前後端分離", "以 API 契約銜接前台與後台", "開發歷程文件化"],
+    name: "穀意 GoodEats",
+    note: "前後端分離規劃",
+    body: "React 前台搭配 PHP API，先定好 API 契約再分頭開發，並把後台規劃與開發歷程整理成介紹站。",
     href: "/work/goodeats/",
+    image: { src: "/assets/showgoodeats.webp", width: 900, height: 648 },
   },
 ];
 
-const processSteps = [
-  {
-    title: "盤點角色與任務",
-    body: "先列出誰會用、在什麼時段用、最常做哪三件事，再決定首頁該放什麼。",
-    output: "角色清單・任務頻率表",
-  },
-  {
-    title: "權限與資料範圍",
-    body: "把「看得到」與「能操作」分開設計，敏感操作綁定角色，無權限時明確說明原因。",
-    output: "權限矩陣（RBAC）",
-  },
-  {
-    title: "資訊架構",
-    body: "依任務而非資料表分選單；列表、詳細、編輯三層結構固定，降低學習成本。",
-    output: "Sitemap・頁面流程圖",
-  },
-  {
-    title: "Wireframe 與 Figma",
-    body: "以真實欄位與極端資料（超長名稱、空值、千筆以上）驗證版面，而不是只排漂亮的假資料。",
-    output: "線框稿・高保真稿・互動原型",
-  },
-  {
-    title: "元件與設計規範",
-    body: "表格、篩選列、狀態標籤、表單驗證、確認對話框統一規格，讓新頁面能直接組合。",
-    output: "Design Tokens・元件清單",
-  },
-  {
-    title: "前端實作與串接",
-    body: "依 API 契約開發，處理載入、空狀態、錯誤與逾時；上線後依實際使用回饋迭代。",
-    output: "可上線介面・狀態處理清單",
-  },
+const methodSteps = [
+  { title: "先問誰在用", body: "列出使用者、使用時段與最常做的三件事，首頁只放這三件事需要的資訊。" },
+  { title: "分開「看」與「做」", body: "每個角色看得到什麼、能按什麼分別列表。沒權限的按鈕要說明原因，不是直接藏起來。" },
+  { title: "依任務分選單", body: "選單照工作流程排，不照資料表排。列表、詳細、編輯三層固定，換頁不用重新學。" },
+  { title: "用真實資料排版", body: "拿超長標題、空值、上千筆資料去測版面，漂亮的假資料看不出問題。" },
+  { title: "高風險動作加關卡", body: "發布、刪除、批次修改都要先顯示影響範圍；能復原的就提供復原。" },
+  { title: "補齊各種狀態", body: "載入中、沒有資料、出錯、沒有權限都要有畫面，並告訴使用者下一步。" },
 ];
 
 const mappings = [
-  {
-    from: "GoldLab：發布前檢查清單，必填項目未完成就擋下並列出缺漏",
-    to: "工單、參數設定送出前的完整性檢核，不完整就不能送出，並指出缺哪一欄",
-  },
-  {
-    from: "GoldLab：AI 自動產生的內容，可疑項目先進人工審核佇列",
-    to: "系統自動判定的結果（例如自動缺陷分類）需工程師確認才生效",
-  },
-  {
-    from: "GoldLab：英文版 9 種狀態、來源更新自動標示過期、release 紀錄與回滾",
-    to: "配方與文件的版本流程：狀態清楚、上游變更時標示受影響項目、可回到前一版",
-  },
-  {
-    from: "GoldLab：批次操作前顯示筆數確認，結果回報成功與失敗筆數",
-    to: "批次派工或批次結案：先確認範圍，部分失敗時明確列出哪些沒成功",
-  },
-  {
-    from: "GoldLab：健康檢查 API 與先備份再切換的部署流程",
-    to: "系統狀態儀表板與維運紀錄，異常時能快速定位、不影響產線作業",
-  },
-  {
-    from: "大內御指：管理者／技師／會員分流入口",
-    to: "作業員、製程工程師、值班主管分層權限，同一畫面依身分顯示可做的事",
-  },
-  {
-    from: "大內御指：技師排班與休假管理",
-    to: "輪班排程與交接：讓下一班一眼看到上一班留下的事件與處理紀錄",
-  },
-  {
-    from: "植園花室：草稿預覽、版本保留、匯出備份",
-    to: "參數與設定變更：先預覽差異再套用，保留版本可回溯",
-  },
-];
-
-const statusTokens = [
-  { key: "run", label: "運轉", note: "實心勾選圖示" },
-  { key: "idle", label: "待機", note: "空心圓點" },
-  { key: "down", label: "異常", note: "八角形停止圖示" },
-  { key: "pm", label: "保養", note: "扳手圖示" },
-];
-
-const principles = [
-  {
-    title: "狀態不能只靠顏色",
-    body: "每個狀態同時有圖示、文字與顏色，色弱或螢幕反光時仍可辨識。",
-  },
-  {
-    title: "資料密度可調",
-    body: "提供標準／緊湊兩種密度；監控畫面需要一屏看更多，表單頁需要留白。",
-  },
-  {
-    title: "高風險操作兩段確認",
-    body: "切換機台狀態、刪除資料前，在原位顯示影響範圍再確認，不用跳出式彈窗打斷。",
-  },
-  {
-    title: "每個動作都留紀錄",
-    body: "操作紀錄附帶執行身分與時間，方便交班與事後追溯。",
-  },
-  {
-    title: "空、載入、錯誤、無權限",
-    body: "四種狀態都有對應畫面與下一步提示，不讓使用者面對空白表格。",
-  },
-  {
-    title: "鍵盤與長時間使用",
-    body: "可用 Tab 操作全部控制項、焦點清楚；色彩以 Token 管理，可延伸深色主題，降低長時間值班的疲勞。",
-  },
+  { from: "發布前檢查清單", fromNote: "GoldLab", to: "工單或參數送出前的完整性檢查，不完整就擋下並指出缺哪一欄" },
+  { from: "AI 草稿進人工審核", fromNote: "GoldLab", to: "系統自動判定的結果（例如自動缺陷分類）由工程師確認後才生效" },
+  { from: "英文版狀態與回滾", fromNote: "GoldLab", to: "配方、文件版本的流程狀態，上游變更時標出受影響項目，可回到前一版" },
+  { from: "批次操作與失敗回報", fromNote: "GoldLab", to: "批次派工或結案前先確認範圍，部分失敗時列出哪幾筆沒成功" },
+  { from: "管理者／技師／會員入口", fromNote: "大內御指", to: "作業員、製程工程師、值班主管看到的資訊與能做的操作不同" },
+  { from: "排班與休假管理", fromNote: "大內御指", to: "輪班排程與交接，下一班能看到上一班留下的事件與處理紀錄" },
+  { from: "版本保留與備份", fromNote: "植園花室", to: "設定變更先預覽差異再套用，保留歷史版本" },
 ];
 
 export function AdminSystemsCase() {
   return (
-    <div className="admin-case">
-      <section className="admin-section">
-        <p className="eyebrow">Main case</p>
-        <h2>主案例：GoldLab 編輯後台</h2>
-        <p className="section-intro">
-          GoldLab 是持續維運中的貴金屬資訊網站，從前台、後台、API、自動化內容管線到部署都由我規劃與實作。後台讓編輯管理中英文文章、審核系統自動產生的內容，並掌握系統狀態。
-        </p>
-        <div className="goldlab-facts">
-          {goldlabFacts.map((fact) => (
-            <div className="goldlab-fact" key={fact.label}>
-              <strong>{fact.value}</strong>
-              <span>{fact.label}</span>
-            </div>
-          ))}
-        </div>
-        <p className="goldlab-stack">
-          React 18・Vite・Tailwind CSS・React Router・Express・JWT・Node.js 測試・Docker／VPS 部署
+    <div className="ac">
+      <aside className="ac-aside">
+        <AdminCaseToc items={toc} />
+      </aside>
+
+      <div className="ac-main">
+        <p className="ac-lead">
+          這頁整理我做過的後台。主角是 GoldLab：一個仍在營運的貴金屬資訊網站，前台、編輯後台、API 到部署都是我做的。後面再補上其他幾套後台、我規劃後台的方式，以及這些經驗放到製造現場會怎麼用。
         </p>
 
-        <div className="goldlab-modules">
-          {goldlabModules.map((module) => (
-            <article className="card goldlab-module" key={module.title}>
-              <div className="goldlab-module__head">
-                <h3>{module.title}</h3>
-                <code>{module.route}</code>
-              </div>
-              <ul>
-                {module.points.map((point) => (
-                  <li key={point}>{point}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
+        <section id="goldlab" className="ac-section">
+          <header className="ac-section__head">
+            <h2>GoldLab 編輯後台</h2>
+            <p>
+              編輯在這裡管理中英文文章、審核 AI 產生的短評。網站每 15 分鐘從 17 個國際新聞來源抓資料，翻譯後交給 AI 寫短評，有疑慮的內容會停在後台等人確認。
+            </p>
+            <p className="ac-meta">
+              React、Vite、Tailwind CSS、Express、JWT，部署在自己的 VPS（Docker）。
+              <a href="https://goldlab.tw/" target="_blank" rel="noopener noreferrer">
+                goldlab.tw <ArrowUpRight size={13} />
+              </a>
+            </p>
+          </header>
 
-        <h3 className="goldlab-subhead">自動化內容管線與人工把關</h3>
-        <ol className="goldlab-pipeline">
-          {goldlabPipeline.map((item) => (
-            <li key={item.step}>
-              <strong>{item.step}</strong>
-              <span>{item.body}</span>
-            </li>
-          ))}
-        </ol>
-        <div className="goldlab-links">
-          <Link className="button button--secondary button--sm" href="/work/goldlab/" prefetch={false}>
-            GoldLab 前台案例 <ArrowUpRight size={14} />
-          </Link>
-          <a className="button button--quiet button--sm" href="https://goldlab.tw/" target="_blank" rel="noopener noreferrer">
-            goldlab.tw <ArrowUpRight size={14} />
-          </a>
-        </div>
-      </section>
-
-      <section className="admin-section">
-        <p className="eyebrow">Other systems</p>
-        <h2>其他後台作品</h2>
-        <p className="section-intro">
-          不同類型的後台各有重點：營運排班、內容管理與前後端分離架構。
-        </p>
-        <div className="admin-systems">
-          {systems.map((system) => (
-            <article className="card admin-system" key={system.name}>
-              <div className="admin-system__head">
-                <span className="admin-system__type">{system.type}</span>
-                <h3>{system.name}</h3>
-                <span className="admin-system__stack">{system.stack}</span>
-              </div>
-              <div className="admin-system__group">
-                <span>主要模組</span>
-                <div className="tags">
-                  {system.modules.map((item) => (
-                    <span className="tag tag--sm" key={item}>
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="admin-system__group">
-                <span>設計模式</span>
+          {goldlabFeatures.map((feature, index) => (
+            <article className="ac-feature" key={feature.title}>
+              <div className="ac-feature__text">
+                <span className="ac-feature__index">
+                  {index + 1} / {goldlabFeatures.length}
+                </span>
+                <h3>{feature.title}</h3>
+                <p>{feature.body}</p>
                 <ul>
-                  {system.patterns.map((item) => (
-                    <li key={item}>{item}</li>
+                  {feature.notes.map((note) => (
+                    <li key={note}>{note}</li>
                   ))}
                 </ul>
               </div>
-              <Link className="button button--quiet button--sm" href={system.href} prefetch={false}>
-                查看案例 <ArrowUpRight size={14} />
-              </Link>
+              <a className="ac-shot" href={feature.image.src} target="_blank" rel="noopener noreferrer">
+                <Image
+                  src={feature.image.src}
+                  alt={feature.image.alt}
+                  width={feature.image.width}
+                  height={feature.image.height}
+                  sizes="(max-width: 960px) 100vw, 760px"
+                />
+              </a>
             </article>
           ))}
-        </div>
-      </section>
 
-      <section className="admin-section">
-        <p className="eyebrow">Process</p>
-        <h2>後台規劃流程</h2>
-        <p className="section-intro">從上面幾套系統歸納出的固定流程，每一步都有可交付的產出。</p>
-        <ol className="admin-process">
-          {processSteps.map((step, index) => (
-            <li className="card" key={step.title}>
-              <span className="admin-process__num">{String(index + 1).padStart(2, "0")}</span>
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
-              <span className="admin-process__output">產出：{step.output}</span>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="admin-section">
-        <p className="eyebrow">Transfer to manufacturing</p>
-        <h2>經驗如何對應到製造現場</h2>
-        <p className="section-intro">
-          晶圓廠後台的核心同樣是「即時狀態、角色權限、可追溯」。以下是既有經驗可以直接延用的地方。
-        </p>
-        <div className="admin-map" role="table" aria-label="既有經驗與製造現場情境對照">
-          <div className="admin-map__row admin-map__row--head" role="row">
-            <span role="columnheader">既有作品中的做法</span>
-            <span role="columnheader">對應的製造現場情境</span>
+          <div className="ac-ops">
+            <h3>看不到的部分</h3>
+            <p>
+              後台用 JWT 驗證，同一個 IP 登入失敗五次會鎖十五分鐘。另有一支健康檢查 API，回報文章數、回收桶、備份與快取狀態。部署時先備份文章與上傳檔，新版本通過健康檢查才切換，建置失敗也不會影響線上網站。
+            </p>
           </div>
-          {mappings.map((row) => (
-            <div className="admin-map__row" role="row" key={row.from}>
-              <span role="cell">{row.from}</span>
-              <span role="cell">{row.to}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+        </section>
 
-      <section className="admin-section">
-        <p className="eyebrow">Design system</p>
-        <h2>後台設計原則與規範</h2>
-        <div className="admin-tokens">
-          {statusTokens.map((token) => (
-            <div className="admin-token" key={token.key}>
-              <span className={`fab-status fab-status--${token.key}`}>{token.label}</span>
-              <small>{token.note}</small>
-            </div>
-          ))}
-        </div>
-        <div className="admin-principles">
-          {principles.map((item) => (
-            <div className="admin-principle" key={item.title}>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+        <section id="other-systems" className="ac-section">
+          <header className="ac-section__head">
+            <h2>其他後台</h2>
+            <p>規模較小，但各自處理了不同的問題。</p>
+          </header>
+          <div className="ac-others">
+            {otherSystems.map((system) => (
+              <Link className="ac-other" href={system.href} prefetch={false} key={system.name}>
+                <span className="ac-other__thumb">
+                  <Image src={system.image.src} alt="" width={system.image.width} height={system.image.height} sizes="200px" />
+                </span>
+                <span className="ac-other__text">
+                  <strong>
+                    {system.name}
+                    <ArrowUpRight size={14} aria-hidden="true" />
+                  </strong>
+                  <em>{system.note}</em>
+                  <span>{system.body}</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
 
-      <section className="admin-section" id="concept-demo">
-        <p className="eyebrow">Interactive concept</p>
-        <h2>概念 Demo：設備監控主控台</h2>
-        <p className="section-intro">
-          把上述原則實作成可操作的畫面。可以試著切換「檢視身分」看權限差異、點選機台確認告警、用狀態篩選與欄位排序，或切換緊湊密度。
-        </p>
-        <FabConsoleDemo />
-        <p className="admin-disclaimer">
-          此 Demo 為個人設計練習，所有機台、批號與告警皆為前端隨機模擬資料，與任何公司的實際系統無關。
-        </p>
-      </section>
+        <section id="method" className="ac-section">
+          <header className="ac-section__head">
+            <h2>我怎麼規劃後台</h2>
+            <p>做了幾套之後，固定會照這個順序想一遍。</p>
+          </header>
+          <ol className="ac-steps">
+            {methodSteps.map((step) => (
+              <li key={step.title}>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section id="manufacturing" className="ac-section">
+          <header className="ac-section__head">
+            <h2>放到製造現場</h2>
+            <p>
+              製造現場的後台更在意即時狀態、權限分層和事後追溯。這些需求在我做過的系統裡都有對應的做法：
+            </p>
+          </header>
+          <div className="ac-table-wrap">
+            <table className="ac-table">
+              <thead>
+                <tr>
+                  <th scope="col">做過的</th>
+                  <th scope="col">可以怎麼用</th>
+                </tr>
+              </thead>
+              <tbody>
+                {mappings.map((row) => (
+                  <tr key={row.from}>
+                    <td>
+                      {row.from}
+                      <small>{row.fromNote}</small>
+                    </td>
+                    <td>{row.to}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="concept-demo" className="ac-section">
+          <header className="ac-section__head">
+            <h2>概念 Demo：設備監控主控台</h2>
+            <p>
+              為了驗證上面的想法，我做了這個可以操作的畫面。可以試試把右上角的身分切成「作業員」再點一台異常機台，確認按鈕會鎖住；切成「值班主管」才能把機台轉為保養，而且要再確認一次。
+            </p>
+          </header>
+          <FabConsoleDemo />
+          <p className="ac-note">機台、批號與告警都是前端隨機產生的模擬資料，與任何公司的系統無關。</p>
+        </section>
+      </div>
     </div>
   );
 }

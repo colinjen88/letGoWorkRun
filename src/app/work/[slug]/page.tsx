@@ -135,8 +135,11 @@ export default async function WorkPage({
           </aside>
         </header>
 
-        {project.slug === "admin-systems" && <AdminSystemsCase />}
-
+        {/* 後台整合案例的截圖與說明都在自訂版面中，不再重複一般圖集與筆記 */}
+        {project.slug === "admin-systems" ? (
+          <AdminSystemsCase />
+        ) : (
+        <>
         {/* Gallery */}
         <div className="gallery">
           {project.images.map((image, index) => (
@@ -193,6 +196,8 @@ export default async function WorkPage({
               </section>
             </div>
           </div>
+        )}
+        </>
         )}
 
         {/* Case Switcher (Prev / Next Case Navigation) */}
