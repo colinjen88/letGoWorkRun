@@ -7,6 +7,7 @@
 
 | ID | 本機來源與入口 | 發布狀態 | 核對結論 |
 |---|---|---|---|
+| `admin-systems` | `src/components/AdminSystemsCase.tsx`、`src/components/FabConsoleDemo.tsx`、`public/assets/admin/`，沿用 royal／goldlab／zyfloral／flashrate 截圖 | 2026-10-29 新增 | 整合既有後台作品的模組與設計模式；大內御指維持「試做」表述。設備監控主控台為個人概念 Demo，頁面已標示資料為模擬、與任何公司無關，不得描述為實際專案。 |
 | `zyfloral` | `let/index.html`、`public/assets/zyfloral/`、https://zyfloral.com/ | 待本人確認 | 專案、4 張圖片與入口存在；官網、後台及內容管理的具體責任範圍待本人確認。 |
 | `royal` | `let/index.html`、`public/assets/royaltouch/`、https://royal.gowork.run/showcase | 已以「試做」發布 | 專案、5 張圖片與展示入口存在；不得描述為正式委託或已上線系統。 |
 | `goodeats` | `let/index.html`、`public/assets/goodeats_preview.webp`、`public/assets/showgoodeats.webp`、https://goodeats.asia/、https://gowork.run/showGoodEats/ | 待本人確認 | 官網和 Showcase 兩個入口皆保留；角色維持視覺、動效及前端展示的保守表述。 |

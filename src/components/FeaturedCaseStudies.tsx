@@ -24,8 +24,15 @@ export function FeaturedCaseStudies() {
         </ScrollReveal>
 
         <div className="featured-grid">
-          {featured.map((project, idx) => (
-            <ScrollReveal key={project.id} delay={idx * 0.15}>
+          {featured.map((project, idx) => {
+            // 精選數量為奇數時，第一張卡片橫跨整列，避免最後一列只剩一張。
+            const isLead = featured.length % 2 === 1 && idx === 0;
+            return (
+            <ScrollReveal
+              key={project.id}
+              delay={idx * 0.15}
+              className={isLead ? "featured-lead" : ""}
+            >
               <article className="card feature-card">
                 <Link
                   href={`/work/${project.slug}/`}
@@ -37,7 +44,11 @@ export function FeaturedCaseStudies() {
                     src={getProjectCardImage(project.images[0])}
                     alt={project.imageCaptions?.[0] ?? project.title}
                     fill
-                    sizes="(max-width: 620px) calc(100vw - 3rem), (max-width: 1200px) 50vw, 580px"
+                    sizes={
+                      isLead
+                        ? "(max-width: 860px) calc(100vw - 3rem), 700px"
+                        : "(max-width: 620px) calc(100vw - 3rem), (max-width: 1200px) 50vw, 580px"
+                    }
                   />
                   <div className="feature-card__badge-overlay" aria-hidden="true">
                     <span>精選案例</span>
@@ -56,6 +67,7 @@ export function FeaturedCaseStudies() {
                       <Link href={`/work/${project.slug}/`} prefetch={false}>{project.title}</Link>
                     </h3>
                     <p>{project.subtitle}</p>
+                    {isLead && <p className="feature-card__summary">{project.summary}</p>}
                   </div>
                   <div className="feature-card__footer">
                     <Link
@@ -70,7 +82,8 @@ export function FeaturedCaseStudies() {
                 </div>
               </article>
             </ScrollReveal>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

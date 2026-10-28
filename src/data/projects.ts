@@ -60,6 +60,50 @@ export const personalInfo = {
 
 export const projects: Project[] = [
   {
+    id: "admin-systems",
+    slug: "admin-systems",
+    title: "後台管理系統 設計規劃與開發整合",
+    subtitle: "五套後台的模組整理、規劃流程、設計規範與製造現場概念 Demo",
+    categories: ["functional-web"],
+    summary:
+      "營運／內容／列表／即時監控後台整理 • 角色權限與資訊架構規劃 • 後台設計規範 • 設備監控主控台互動 Demo",
+    tags: ["後台 UI/UX", "權限規劃 RBAC", "資料表格與篩選", "即時監控", "設計規範"],
+    featured: true,
+    images: [
+      "/assets/admin/admin_console.webp",
+      "/assets/royaltouch/royal04.webp",
+      "/assets/goldlab_preview5.webp",
+      "/assets/zyfloral/zyfloral04.webp",
+      "/assets/flashrate.webp",
+      "/assets/royaltouch/royal05.webp",
+    ],
+    imageCaptions: [
+      "概念 Demo：設備監控主控台（模擬資料）",
+      "大內御指（試做）：預約總覽儀表板，KPI 卡片、營收趨勢與最新預約",
+      "GoldLab：文章管理中心，狀態分頁、搜尋篩選、排序表格與批次勾選",
+      "植園花室：網站內容管理，草稿預覽、版本保留與備份匯出入",
+      "Goldlab.cloud：多來源即時監控，連線狀態、來源延遲與更新時間",
+      "大內御指（試做）：依角色拆分的前台、管理後台與技師後台入口",
+    ],
+    details: {
+      role: "後台資訊架構與權限規劃、UI/UX 介面設計、前端程式實作與 API 串接；本頁概念 Demo 為個人設計練習",
+      challenge:
+        "把散落在不同作品中的後台經驗整理成一套可重複的方法：從角色與任務出發規劃資訊架構，用一致的元件與狀態規範降低操作錯誤，並驗證這套方法能延伸到即時監控、權限分層與可追溯性要求更高的製造現場。",
+      approach: [
+        "盤點五套後台的模組與共通模式，歸納為儀表板、資料列表、內容編輯、即時監控四種頁型。",
+        "先定義角色與權限矩陣，再依任務頻率決定選單與首頁資訊，敏感操作綁定角色並在原位二次確認。",
+        "統一狀態標籤（圖示＋文字＋顏色）、表格密度、篩選列與空／載入／錯誤／無權限四種狀態畫面。",
+        "以 React 實作設備監控主控台 Demo，示範即時更新、資料新鮮度、角色權限、告警確認與操作紀錄。",
+      ],
+      highlights: [
+        "五套後台模組與設計模式對照表，以及既有經驗對應製造現場的情境整理",
+        "六步驟後台規劃流程與每一步的交付物",
+        "後台狀態語意與六項設計原則",
+        "可操作的設備監控主控台概念 Demo（模擬資料，可完整用鍵盤操作）",
+      ],
+    },
+  },
+  {
     id: "zyfloral",
     slug: "zyfloral",
     title: "植園花室 Zhiyuan Floral Studio (官網與後台管理)",

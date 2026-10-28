@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { getProjectBySlug, getFeaturedProjects, projects } from "@/data/projects";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
+import { AdminSystemsCase } from "@/components/AdminSystemsCase";
 
 export const dynamicParams = false;
 
@@ -125,9 +126,16 @@ export default async function WorkPage({
                   查看開發介紹 <ArrowUpRight size={16} />
                 </a>
               )}
+              {project.slug === "admin-systems" && (
+                <a className="button button--primary" href="#concept-demo">
+                  直接操作概念 Demo <ArrowDown size={16} />
+                </a>
+              )}
             </div>
           </aside>
         </header>
+
+        {project.slug === "admin-systems" && <AdminSystemsCase />}
 
         {/* Gallery */}
         <div className="gallery">
