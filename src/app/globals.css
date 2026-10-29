@@ -2396,7 +2396,74 @@ body:has(.ac) .bg-floating-accent { display: none; }
 .fab-console .fab-chip--down[aria-pressed="true"] { color: var(--status-down); background: var(--status-down-bg); }
 .fab-console .fab-chip--pm[aria-pressed="true"] { color: var(--status-pm); background: var(--status-pm-bg); }
 
-.fab-body { display: grid; grid-template-columns: minmax(0, 1fr) 19rem; }
+.fab-body { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 19rem; }
+
+/* 切換時的回饋：狀態列說明結果、遮罩說明進行中的動作 */
+.fab-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: .45rem;
+  margin: 0;
+  padding: .55rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--surface-card-subtle);
+  color: var(--text-secondary);
+  font-size: .8rem;
+  line-height: 1.55;
+}
+.fab-notice svg { flex: none; margin-top: .15rem; color: var(--brand); }
+.fab-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 4.5rem;
+  background: color-mix(in srgb, var(--surface-card) 65%, transparent);
+  animation: fabFadeIn .15s ease;
+}
+.fab-loading__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  padding: .55rem 1rem;
+  background: var(--surface-card);
+  box-shadow: 0 10px 30px -12px rgba(15, 23, 42, .35);
+  color: var(--text-primary);
+  font-size: .86rem;
+  font-weight: 700;
+}
+.fab-loading__pill svg { color: var(--brand); }
+.fab-spin { animation: fabSpin .8s linear infinite; }
+@keyframes fabSpin { to { transform: rotate(360deg); } }
+@keyframes fabFadeIn { from { opacity: 0; } }
+.fab-console button:disabled,
+.fab-console select:disabled { cursor: progress; opacity: .6; }
+.fab-skeleton { display: grid; gap: .6rem; }
+.fab-skeleton__label {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  margin-bottom: .25rem;
+  color: var(--text-secondary);
+  font-size: .8rem;
+  font-weight: 650;
+}
+.fab-skeleton__line {
+  display: block;
+  height: .7rem;
+  border-radius: .3rem;
+  background: linear-gradient(90deg, var(--surface-muted) 25%, var(--border-subtle) 50%, var(--surface-muted) 75%);
+  background-size: 200% 100%;
+  animation: fabShimmer 1.2s ease-in-out infinite;
+}
+@keyframes fabShimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .fab-spin, .fab-skeleton__line, .fab-loading { animation: none; }
+}
 .fab-table-wrap { max-height: 30rem; overflow: auto; }
 .fab-table { width: 100%; border-collapse: collapse; }
 .fab-table th {

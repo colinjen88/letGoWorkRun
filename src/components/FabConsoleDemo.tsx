@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AlertTriangle,
   ArrowDown,
   ArrowUp,
   CheckCircle2,
   CircleDot,
+  Info,
+  Loader2,
   Lock,
   Pause,
   Play,
@@ -52,11 +54,13 @@ const STATUS_META: Record<Status, { label: string; Icon: typeof CircleDot }> = {
 };
 const STATUS_ORDER: Status[] = ["down", "pm", "idle", "run"];
 
-const ROLE_META: Record<Role, { label: string; canAck: boolean; canPm: boolean }> = {
-  operator: { label: "作業員", canAck: false, canPm: false },
-  engineer: { label: "製程工程師", canAck: true, canPm: false },
-  manager: { label: "值班主管", canAck: true, canPm: true },
+const ROLE_META: Record<Role, { label: string; canAck: boolean; canPm: boolean; hint: string }> = {
+  operator: { label: "作業員", canAck: false, canPm: false, hint: "可查看機台與告警，無法確認告警或切換保養。" },
+  engineer: { label: "製程工程師", canAck: true, canPm: false, hint: "可確認告警；切換保養需由值班主管操作。" },
+  manager: { label: "值班主管", canAck: true, canPm: true, hint: "可確認告警，也可以將機台切換為保養。" },
 };
+
+const INITIAL_NOTICE = "點選任一機台可查看告警與操作；右上角可切換檢視身分，比較不同權限。";
 
 const ALARM_POOL = [
   { code: "E-1042", message: "腔體壓力超出管制上限" },
@@ -122,6 +126,32 @@ export function FabConsoleDemo() {
   const [live, setLive] = useState(true);
   const [confirmPm, setConfirmPm] = useState(false);
   const [log, setLog] = useState<LogEntry[]>([]);
+  // 載入與提示狀態：整體切換用遮罩，詳細資料用骨架，單一按鈕用行內轉圈。
+  const [busy, setBusy] = useState<string | null>(null);
+  const [notice, setNotice] = useState(INITIAL_NOTICE);
+  const [roleChoice, setRoleChoice] = useState<Role>("engineer");
+  const [panelLoading, setPanelLoading] = useState(false);
+  const [pendingAction, setPendingAction] = useState<string | null>(null);
+  const timers = useRef<number[]>([]);
+  const selectToken = useRef(0);
+
+  useEffect(() => {
+    const pending = timers.current;
+    return () => pending.forEach((t) => window.clearTimeout(t));
+  }, []);
+
+  const wait = (ms: number) =>
+    new Promise<void>((resolve) => {
+      timers.current.push(window.setTimeout(resolve, ms));
+    });
+
+  const withLoading = async (label: string, apply: () => void, done?: string, ms = 500) => {
+    setBusy(label);
+    await wait(ms);
+    apply();
+    setBusy(null);
+    if (done) setNotice(done);
+  };
 
   // 模擬即時資料：每 2 秒更新部分機台稼動率與資料新鮮度。
   useEffect(() => {
@@ -180,16 +210,56 @@ export function FabConsoleDemo() {
   const addLog = (text: string) =>
     setLog((current) => [{ id: (current[0]?.id ?? 0) + 1, text, role }, ...current].slice(0, 6));
 
-  const toggleStatus = (status: Status) =>
-    setStatusFilter((current) =>
-      current.includes(status) ? current.filter((s) => s !== status) : [...current, status]
+  const toggleStatus = (status: Status) => {
+    const next = statusFilter.includes(status)
+      ? statusFilter.filter((s) => s !== status)
+      : [...statusFilter, status];
+    void withLoading(
+      "正在套用狀態篩選…",
+      () => setStatusFilter(next),
+      next.length ? `已篩選狀態：${next.map((s) => STATUS_META[s].label).join("、")}` : "已顯示所有狀態的機台",
+      350
     );
+  };
+
+  const changeRole = (next: Role) => {
+    setRoleChoice(next);
+    void withLoading(
+      `正在切換為「${ROLE_META[next].label}」身分…`,
+      () => {
+        setRole(next);
+        setConfirmPm(false);
+      },
+      `目前身分：${ROLE_META[next].label}。${ROLE_META[next].hint}`,
+      700
+    );
+  };
+
+  const changeArea = (next: string) =>
+    void withLoading(
+      next === "all" ? "正在載入全部區域…" : `正在載入${next}區機台…`,
+      () => setArea(next),
+      next === "all" ? "已顯示全部區域的機台" : `已篩選區域：${next}區`,
+      450
+    );
+
+  const selectTool = async (id: string) => {
+    if (id === selectedId && !panelLoading) return;
+    const token = ++selectToken.current;
+    setSelectedId(id);
+    setConfirmPm(false);
+    setPanelLoading(true);
+    await wait(400);
+    if (token === selectToken.current) setPanelLoading(false);
+  };
 
   const toggleSort = (key: SortKey) =>
     setSort((current) => ({ key, dir: current.key === key ? (current.dir === 1 ? -1 : 1) : 1 }));
 
-  const ackAlarm = (code: string) => {
-    if (!selected) return;
+  const ackAlarm = async (code: string) => {
+    if (!selected || pendingAction) return;
+    setPendingAction(code);
+    await wait(600);
     setTools((current) =>
       current.map((tool) =>
         tool.id === selected.id
@@ -198,10 +268,14 @@ export function FabConsoleDemo() {
       )
     );
     addLog(`確認 ${selected.id} 告警 ${code}`);
+    setPendingAction(null);
+    setNotice(`已確認 ${selected.id} 的告警 ${code}，並寫入操作紀錄。`);
   };
 
-  const switchToPm = () => {
-    if (!selected) return;
+  const switchToPm = async () => {
+    if (!selected || pendingAction) return;
+    setPendingAction("pm");
+    await wait(900);
     setTools((current) =>
       current.map((tool) =>
         tool.id === selected.id ? { ...tool, status: "pm", lot: "—", utilization: 0, updatedAgo: 0 } : tool
@@ -209,6 +283,8 @@ export function FabConsoleDemo() {
     );
     addLog(`將 ${selected.id} 切換為保養狀態`);
     setConfirmPm(false);
+    setPendingAction(null);
+    setNotice(`${selected.id} 已切換為保養，停止接收派工。`);
   };
 
   const sortHeader = (key: SortKey, label: string) => {
@@ -234,7 +310,7 @@ export function FabConsoleDemo() {
         <div className="fab-console__controls">
           <label className="fab-field">
             <span>檢視身分</span>
-            <select value={role} onChange={(e) => setRole(e.target.value as Role)}>
+            <select value={roleChoice} disabled={Boolean(busy)} onChange={(e) => changeRole(e.target.value as Role)}>
               {(Object.keys(ROLE_META) as Role[]).map((key) => (
                 <option key={key} value={key}>
                   {ROLE_META[key].label}
@@ -242,10 +318,31 @@ export function FabConsoleDemo() {
               ))}
             </select>
           </label>
-          <button type="button" className="fab-btn" aria-pressed={dense} onClick={() => setDense(!dense)}>
+          <button
+            type="button"
+            className="fab-btn"
+            aria-pressed={dense}
+            disabled={Boolean(busy)}
+            onClick={() =>
+              void withLoading(
+                "正在調整表格密度…",
+                () => setDense(!dense),
+                dense ? "已切換為標準密度" : "已切換為緊湊密度，一次可以看到更多機台",
+                350
+              )
+            }
+          >
             {dense ? "標準密度" : "緊湊密度"}
           </button>
-          <button type="button" className="fab-btn" aria-pressed={!live} onClick={() => setLive(!live)}>
+          <button
+            type="button"
+            className="fab-btn"
+            aria-pressed={!live}
+            onClick={() => {
+              setLive(!live);
+              setNotice(live ? "已暫停即時更新，畫面停留在目前的資料。" : "已恢復即時更新，每 2 秒更新一次。");
+            }}
+          >
             {live ? <Pause size={14} /> : <Play size={14} />}
             {live ? "暫停更新" : "恢復更新"}
           </button>
@@ -287,7 +384,7 @@ export function FabConsoleDemo() {
         </label>
         <label className="fab-field">
           <span className="sr-only">區域</span>
-          <select value={area} onChange={(e) => setArea(e.target.value)} aria-label="篩選區域">
+          <select value={area} disabled={Boolean(busy)} onChange={(e) => changeArea(e.target.value)} aria-label="篩選區域">
             <option value="all">全部區域</option>
             {AREAS.map((a) => (
               <option key={a} value={a}>
@@ -303,6 +400,7 @@ export function FabConsoleDemo() {
               key={status}
               className={`fab-chip fab-chip--${status}`}
               aria-pressed={statusFilter.includes(status)}
+              disabled={Boolean(busy)}
               onClick={() => toggleStatus(status)}
             >
               {STATUS_META[status].label} <span>{counts[status]}</span>
@@ -311,7 +409,20 @@ export function FabConsoleDemo() {
         </div>
       </div>
 
-      <div className="fab-body">
+      <p className="fab-notice" aria-live="polite">
+        <Info size={14} aria-hidden="true" />
+        <span>{notice}</span>
+      </p>
+
+      <div className="fab-body" aria-busy={Boolean(busy)}>
+        {busy && (
+          <div className="fab-loading" role="status">
+            <span className="fab-loading__pill">
+              <Loader2 size={16} className="fab-spin" aria-hidden="true" />
+              {busy}
+            </span>
+          </div>
+        )}
         <div className="fab-table-wrap">
           <table className="fab-table">
             <caption className="sr-only">機台狀態列表，點選列可查看詳細資訊</caption>
@@ -332,10 +443,7 @@ export function FabConsoleDemo() {
                   <tr
                     key={tool.id}
                     className={selectedId === tool.id ? "is-selected" : undefined}
-                    onClick={() => {
-                      setSelectedId(tool.id);
-                      setConfirmPm(false);
-                    }}
+                    onClick={() => void selectTool(tool.id)}
                   >
                     <td>
                       <button
@@ -343,8 +451,7 @@ export function FabConsoleDemo() {
                         className="fab-row-link"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setSelectedId(tool.id);
-                          setConfirmPm(false);
+                          void selectTool(tool.id);
                         }}
                       >
                         {tool.id}
@@ -381,11 +488,18 @@ export function FabConsoleDemo() {
               <button
                 type="button"
                 className="fab-btn"
-                onClick={() => {
-                  setQuery("");
-                  setArea("all");
-                  setStatusFilter([]);
-                }}
+                onClick={() =>
+                  void withLoading(
+                    "正在清除篩選…",
+                    () => {
+                      setQuery("");
+                      setArea("all");
+                      setStatusFilter([]);
+                    },
+                    "已清除篩選，顯示全部機台",
+                    350
+                  )
+                }
               >
                 清除所有篩選
               </button>
@@ -394,7 +508,18 @@ export function FabConsoleDemo() {
         </div>
 
         <aside className="fab-panel" aria-live="polite">
-          {selected ? (
+          {selected && panelLoading ? (
+            <div className="fab-skeleton" role="status">
+              <span className="fab-skeleton__label">
+                <Loader2 size={14} className="fab-spin" aria-hidden="true" />
+                正在載入 {selected.id} 詳細資料…
+              </span>
+              <span className="fab-skeleton__line" style={{ width: "45%" }} />
+              <span className="fab-skeleton__line" style={{ width: "30%" }} />
+              <span className="fab-skeleton__line" style={{ width: "90%" }} />
+              <span className="fab-skeleton__line" style={{ width: "75%" }} />
+            </div>
+          ) : selected ? (
             <>
               <div className="fab-panel__head">
                 <div>
@@ -421,8 +546,19 @@ export function FabConsoleDemo() {
                       {alarm.acked ? (
                         <span className="fab-muted">已確認</span>
                       ) : permissions.canAck ? (
-                        <button type="button" className="fab-btn fab-btn--sm" onClick={() => ackAlarm(alarm.code)}>
-                          確認
+                        <button
+                          type="button"
+                          className="fab-btn fab-btn--sm"
+                          disabled={Boolean(pendingAction)}
+                          onClick={() => void ackAlarm(alarm.code)}
+                        >
+                          {pendingAction === alarm.code ? (
+                            <>
+                              <Loader2 size={12} className="fab-spin" aria-hidden="true" /> 確認中…
+                            </>
+                          ) : (
+                            "確認"
+                          )}
                         </button>
                       ) : (
                         <span className="fab-locked" title="此身分無確認權限">
@@ -448,10 +584,26 @@ export function FabConsoleDemo() {
                     {selected.lot === "—" ? "機台將停止接收派工。" : `進行中的批號 ${selected.lot} 將暫停派工。`}
                   </p>
                   <div>
-                    <button type="button" className="fab-btn fab-btn--danger" onClick={switchToPm}>
-                      確認切換
+                    <button
+                      type="button"
+                      className="fab-btn fab-btn--danger"
+                      disabled={pendingAction === "pm"}
+                      onClick={() => void switchToPm()}
+                    >
+                      {pendingAction === "pm" ? (
+                        <>
+                          <Loader2 size={14} className="fab-spin" aria-hidden="true" /> 切換中…
+                        </>
+                      ) : (
+                        "確認切換"
+                      )}
                     </button>
-                    <button type="button" className="fab-btn" onClick={() => setConfirmPm(false)}>
+                    <button
+                      type="button"
+                      className="fab-btn"
+                      disabled={pendingAction === "pm"}
+                      onClick={() => setConfirmPm(false)}
+                    >
                       取消
                     </button>
                   </div>

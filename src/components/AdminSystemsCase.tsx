@@ -87,8 +87,6 @@ const methodSteps = [
 
 const mappings = [
   { from: "發布前檢查清單", fromNote: "GoldLab", to: "工單或參數送出前的完整性檢查，並提示缺漏欄位" },
-  { from: "AI 草稿進人工審核", fromNote: "GoldLab", to: "系統自動判定的結果（例如自動缺陷分類），可設計為經工程師確認後生效" },
-  { from: "英文版狀態與回滾", fromNote: "GoldLab", to: "配方或文件版本的流程狀態管理，上游變更時標示受影響項目，並保留回復機制" },
   { from: "批次操作與失敗回報", fromNote: "GoldLab", to: "批次派工或結案前確認範圍，部分失敗時列出未完成項目" },
   { from: "管理者／技師／會員入口", fromNote: "大內御指", to: "依作業員、製程工程師、值班主管等角色區分可檢視資訊與可執行操作" },
   { from: "排班與休假管理", fromNote: "大內御指", to: "輪班排程與交接，讓接班人員查看前一班的事件與處理紀錄" },
@@ -104,7 +102,7 @@ export function AdminSystemsCase() {
 
       <div className="ac-main">
         <p className="ac-lead">
-          這頁整理我參與開發的後台系統，以 GoldLab 為主要案例。GoldLab 是持續更新中的貴金屬資訊網站，前台、編輯後台、API 與部署主要由我負責規劃與開發。後段另外整理其他後台作品、我的規劃方式，以及這些經驗延伸到製造現場的想法。
+          這頁整理我個人規劃設計，然後與AI開發建置出來的後台系統，以 GoldLab 為主要案例。GoldLab 是持續更新中的貴金屬資訊網站，整個網站都是自己規劃、設計與開發。後段另外整理其他簡易型後台作品、我的規劃方式，以及這些經驗延伸到製造現場的想法。
         </p>
 
         <section id="goldlab" className="ac-section">
