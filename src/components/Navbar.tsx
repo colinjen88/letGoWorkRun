@@ -109,14 +109,17 @@ export function Navbar() {
           )}
 
           <div className="nav-actions">
-            <a
-              href="/dark.html"
-              className="theme-toggle-btn"
-              aria-label="切換至原版深色作品集"
-              title="切換至原版深色作品集"
-            >
-              <Moon size={16} />
-            </a>
+            {/* 案例頁不放切換舊版的入口，避免讀到一半被帶離 */}
+            {!isCaseStudy && (
+              <a
+                href="/dark.html"
+                className="theme-toggle-btn"
+                aria-label="切換至原版深色作品集"
+                title="切換至原版深色作品集"
+              >
+                <Moon size={16} />
+              </a>
+            )}
 
             {isCaseStudy ? (
               <Link href="/#works" prefetch={false} className="button button--secondary button--sm nav-case-return">
@@ -124,10 +127,11 @@ export function Navbar() {
               </Link>
             ) : null}
 
-            <Link href="/#contact" prefetch={false} className="button button--primary button--sm nav-cta">
+            {/* 案例頁底部就有聯絡區，直接捲到本頁頁尾 */}
+            <a href={isCaseStudy ? "#contact" : "/#contact"} className="button button--primary button--sm nav-cta">
               <span>開始合作</span>
               <ArrowUpRight size={14} />
-            </Link>
+            </a>
 
             <button
               className="nav-toggle"
@@ -155,16 +159,18 @@ export function Navbar() {
               </Link>
             ))}
             <div className="nav-menu-footer">
-              <a
-                href="/dark.html"
-                className="mobile-theme-btn"
-              >
-                <Moon size={15} />
-                <span>切換至原版深色作品集</span>
-              </a>
-              <Link href="/#contact" prefetch={false} onClick={closeMenu} className="mobile-cta-link">
+              {!isCaseStudy && (
+                <a
+                  href="/dark.html"
+                  className="mobile-theme-btn"
+                >
+                  <Moon size={15} />
+                  <span>切換至原版深色作品集</span>
+                </a>
+              )}
+              <a href={isCaseStudy ? "#contact" : "/#contact"} onClick={closeMenu} className="mobile-cta-link">
                 聯絡我
-              </Link>
+              </a>
             </div>
           </div>
         )}

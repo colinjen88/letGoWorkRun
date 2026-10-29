@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { AdminCaseToc, type TocItem } from "@/components/AdminCaseToc";
 import { FabConsoleDemo } from "@/components/FabConsoleDemo";
+import { ShotLightbox } from "@/components/ShotLightbox";
 
 const toc: TocItem[] = [
   { id: "goldlab", label: "GoldLab 編輯後台" },
@@ -117,6 +117,7 @@ export function AdminSystemsCase() {
               React、Vite、Tailwind CSS、Express、JWT，部署在自己的 VPS（Docker）。
               <a href="https://goldlab.tw/" target="_blank" rel="noopener noreferrer">
                 goldlab.tw <ArrowUpRight size={13} />
+                <span className="sr-only">（另開新分頁）</span>
               </a>
             </p>
           </header>
@@ -135,15 +136,7 @@ export function AdminSystemsCase() {
                   ))}
                 </ul>
               </div>
-              <a className="ac-shot" href={feature.image.src} target="_blank" rel="noopener noreferrer">
-                <Image
-                  src={feature.image.src}
-                  alt={feature.image.alt}
-                  width={feature.image.width}
-                  height={feature.image.height}
-                  sizes="(max-width: 960px) 100vw, 760px"
-                />
-              </a>
+              <ShotLightbox image={feature.image} caption={feature.image.alt} />
             </article>
           ))}
 
@@ -158,11 +151,11 @@ export function AdminSystemsCase() {
         <section id="other-systems" className="ac-section">
           <header className="ac-section__head">
             <h2>其他後台</h2>
-            <p>規模較小，但各自處理了不同的問題。</p>
+            <p>規模較小，但各自處理了不同的問題。點選會在新分頁開啟完整案例，這頁會留著。</p>
           </header>
           <div className="ac-others">
             {otherSystems.map((system) => (
-              <Link className="ac-other" href={system.href} prefetch={false} key={system.name}>
+              <a className="ac-other" href={system.href} target="_blank" rel="noopener" key={system.name}>
                 <span className="ac-other__thumb">
                   <Image src={system.image.src} alt="" width={system.image.width} height={system.image.height} sizes="200px" />
                 </span>
@@ -170,11 +163,12 @@ export function AdminSystemsCase() {
                   <strong>
                     {system.name}
                     <ArrowUpRight size={14} aria-hidden="true" />
+                    <span className="sr-only">（另開新分頁）</span>
                   </strong>
                   <em>{system.note}</em>
                   <span>{system.body}</span>
                 </span>
-              </Link>
+              </a>
             ))}
           </div>
         </section>
