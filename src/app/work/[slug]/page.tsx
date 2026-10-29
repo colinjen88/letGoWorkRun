@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
@@ -8,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
 import { AdminSystemsCase } from "@/components/AdminSystemsCase";
+import { ShotLightbox } from "@/components/ShotLightbox";
 
 export const dynamicParams = false;
 
@@ -143,21 +143,20 @@ export default async function WorkPage({
         {/* Gallery */}
         <div className="gallery">
           {project.images.map((image, index) => (
-            <figure key={image}>
-              <a href={image} target="_blank" rel="noopener noreferrer">
-                <Image
-                  src={image}
-                  alt={project.imageCaptions?.[index] ?? `${project.title} 畫面 ${index + 1}`}
-                  width={1600}
-                  height={1000}
-                  sizes="(max-width: 1200px) 100vw, 1200px"
-                  priority={index === 0}
-                />
-              </a>
-              <figcaption>
-                圖 {index + 1}：{project.imageCaptions?.[index] ?? `${project.title} 畫面`}
-              </figcaption>
-            </figure>
+            <ShotLightbox
+              key={image}
+              image={{
+                src: image,
+                width: 1600,
+                height: 1000,
+                alt: project.imageCaptions?.[index] ?? `${project.title} 畫面 ${index + 1}`,
+              }}
+              caption={`圖 ${index + 1}：${project.imageCaptions?.[index] ?? `${project.title} 畫面`}`}
+              figureClassName=""
+              triggerClassName="gallery-shot"
+              sizes="(max-width: 1200px) 100vw, 1200px"
+              priority={index === 0}
+            />
           ))}
         </div>
 
