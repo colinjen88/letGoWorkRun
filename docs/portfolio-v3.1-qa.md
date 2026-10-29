@@ -18,5 +18,6 @@
 | 字體與首屏腳本 | 通過 | 正式站無外部字體請求；影片播放器 chunk 不在首屏下載，於開啟影片時才載入。 |
 | Cloudflare Email | 通過 | 公開 HTML 未再注入 `email-decode.min.js`。 |
 | 正式站部署 | 通過 | 提交 `1505494` 已部署；首頁、案例頁、robots、sitemap 為 HTTP 200，未知路徑維持 HTTP 404。回復產物：`/var/www/html/worki-out-backup-20260923T131106Z`。 |
+| 後台案例頁部署（2026-10-29） | 通過 | 提交 `9a2072e` 已部署（新增 `/work/admin-systems/`）；首頁、5 個案例頁、sitemap、robots、`dark.html` 為 HTTP 200，未知路徑 404；正式站 Demo 互動與主控台無錯誤。回復產物：`/var/www/html/worki-out-backup-20261029T003837Z-admin-case`。 |
 
 尚未執行：實機 iOS Safari、螢幕閱讀器抽查、圖片最重案例頁的 Lighthouse 三次中位數，以及全部外站入口的逐項可用性檢查。這些項目不可視為已通過。
