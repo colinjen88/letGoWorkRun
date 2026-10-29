@@ -70,7 +70,7 @@ export const projects: Project[] = [
     tags: ["後台 UI/UX", "GoldLab 編輯後台", "審核與版本流程", "權限規劃 RBAC", "設計規範"],
     featured: true,
     images: [
-      "/assets/admin/admin_console.webp",
+      "/assets/admin/admin_console_v2.webp",
       "/assets/admin/goldlab_admin_dashboard.webp",
       "/assets/admin/goldlab_admin_batch.webp",
       "/assets/admin/goldlab_admin_editor.webp",
