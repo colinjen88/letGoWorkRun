@@ -48,12 +48,13 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { color-scheme: light; scroll-behavior: smooth; }
+/* 背景光暈會撐寬手機版的版面視窗；用 clip 而非 hidden，才不會讓 body 變成捲動容器而破壞 sticky 目錄 */
+html { color-scheme: light; scroll-behavior: smooth; overflow-x: clip; }
 html[data-theme="dark"] { color-scheme: dark; }
 body {
   margin: 0;
   min-width: 320px;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--surface-page);
   color: var(--text-primary);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang TC", "Microsoft JhengHei", sans-serif;
@@ -573,6 +574,8 @@ p { text-wrap: pretty; }
   border-radius: 999px;
   background: var(--surface-muted);
   color: var(--text-primary);
+  font: inherit;
+  cursor: pointer;
   transition: all .25s ease;
 }
 .theme-toggle-btn:hover {
@@ -653,7 +656,10 @@ p { text-wrap: pretty; }
   padding: .75rem 1rem;
   background: var(--surface-muted);
   color: var(--text-primary);
+  font: inherit;
   font-weight: 700;
+  text-align: left;
+  cursor: pointer;
 }
 .mobile-cta-link {
   text-align: center;
@@ -1576,7 +1582,14 @@ p { text-wrap: pretty; }
   font-family: ui-monospace, monospace;
   font-size: .75rem;
   font-weight: 700;
+  flex-wrap: wrap;
 }
+.footer-legacy-link {
+  color: var(--text-tertiary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.footer-legacy-link:hover { color: var(--brand); }
 
 /* Case Study Detail Page (/work/[slug]/) */
 .work-page { padding: 8rem 0 5rem; }
@@ -2295,6 +2308,135 @@ body:has(.ac) .bg-floating-accent { display: none; }
 .ac-table td small { display: block; color: var(--text-tertiary); font-size: .76rem; font-weight: 500; }
 
 .ac-note { margin: .9rem 0 0; color: var(--text-tertiary); font-size: .8rem; }
+
+/* Creative case studies (LINE stickers, AI MV) */
+.cs-first { margin-top: 4rem; }
+.cs-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 0;
+  padding: 1.25rem 0;
+  border-block: 1px solid var(--border-subtle);
+}
+.cs-stats dt { font-size: 1.75rem; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.cs-stats dd { margin: .15rem 0 0; color: var(--text-secondary); font-size: .84rem; line-height: 1.55; }
+
+.cs-sticker-mount { display: block; border-radius: .5rem; background: #f7f0e4; }
+.cs-sticker-mount img { display: block; box-sizing: border-box; width: 100%; height: 8rem; padding: .6rem; object-fit: contain; }
+.cs-products {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cs-products a { display: grid; gap: .65rem; border-radius: .5rem; }
+.cs-products__text { display: grid; gap: .1rem; }
+.cs-products__text strong { display: inline-flex; align-items: center; gap: .3rem; font-size: .96rem; font-weight: 800; }
+.cs-products__text strong svg { color: var(--text-tertiary); transition: transform .2s ease, color .2s ease; }
+.cs-products a:hover strong svg { color: var(--text-primary); transform: translate(2px, -2px); }
+.cs-products__text > span { color: var(--text-tertiary); font-size: .84rem; }
+
+.cs-checks { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 2rem; padding: 0; list-style: none; }
+.cs-checks li {
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  padding: .25rem .75rem;
+  color: var(--text-secondary);
+  font-size: .84rem;
+  font-weight: 600;
+}
+
+.cs-qa { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
+.cs-qa__panel {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  justify-items: center;
+  align-items: center;
+  gap: .5rem;
+  margin: 0;
+  border-radius: .5rem;
+  padding: 1rem;
+  font-size: .82rem;
+  font-weight: 650;
+}
+.cs-qa__panel img { width: 100%; max-width: 12rem; height: auto; }
+.cs-qa__panel--light { background: #fff; color: #475569; box-shadow: inset 0 0 0 1px #e2e8f0; }
+.cs-qa__panel--dark { background: #1b2230; color: #cbd5e1; }
+.cs-qa__panel--chat { background: #8ca3c7; color: #fff; }
+.cs-qa__panel img.cs-qa__small { width: 5.5rem; }
+
+.cs-sets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; align-items: start; margin-top: 2.5rem; }
+
+.cs-code {
+  display: grid;
+  grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+  margin: 0;
+}
+.cs-code__preview { overflow: hidden; border-radius: .5rem; background: var(--surface-muted); }
+.cs-code__preview img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cs-code pre {
+  overflow-x: auto;
+  margin: 0;
+  border-radius: .5rem;
+  padding: 1rem 1.1rem;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-size: .8rem;
+  line-height: 1.75;
+}
+.cs-code pre:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.cs-code figcaption { grid-column: 1 / -1; color: var(--text-tertiary); font-size: .82rem; }
+
+.cs-loops {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .75rem;
+  margin: 0;
+  padding: .75rem;
+  border-radius: .6rem;
+  background: #f7f0e4;
+  list-style: none;
+}
+.cs-loops img { display: block; width: 100%; height: auto; }
+
+.cs-loops picture, .cs-compare picture, .cs-code__preview picture { display: block; height: 100%; }
+.cs-compare { max-width: 30rem; margin: 1.25rem 0 0; }
+.cs-compare img { display: block; width: 100%; height: auto; border-radius: .5rem; }
+.cs-compare figcaption { margin-top: .6rem; color: var(--text-tertiary); font-size: .82rem; line-height: 1.6; }
+
+.cs-video { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border-radius: .6rem; background: #0b0d12; }
+.cs-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.cs-credits { margin-top: 2rem; }
+.cs-rule-list { margin-bottom: 2.5rem; }
+.cs-face-fix { margin-top: 2.5rem; }
+.cs-frames {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cs-frames img { display: block; width: 100%; height: auto; border-radius: .4rem; }
+.cs-inline-link { margin: 0 .2rem; color: var(--text-primary); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.cs-inline-link--flush { margin: 0; }
+
+@media (max-width: 720px) {
+  .cs-code { grid-template-columns: minmax(0, 1fr); }
+  .cs-code__preview { max-width: 11rem; }
+  .cs-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cs-products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cs-sets { grid-template-columns: minmax(0, 1fr); }
+  .cs-qa { gap: .4rem; }
+  .cs-qa__panel { padding: .6rem; }
+  .cs-loops { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cs-frames { grid-template-columns: minmax(0, 1fr); }
+}
 
 /* Concept demo: equipment monitoring console */
 .fab-console {

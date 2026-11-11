@@ -7,8 +7,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     <NextThemesProvider
       attribute="data-theme"
       defaultTheme="light"
-      forcedTheme="light"
       enableSystem={false}
+      disableTransitionOnChange
       storageKey="wang-portfolio-theme"
     >
       {children}

@@ -7,6 +7,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
 import { AdminSystemsCase } from "@/components/AdminSystemsCase";
+import { PetaDaysCase } from "@/components/PetaDaysCase";
+import { WeiguangMvCase } from "@/components/WeiguangMvCase";
 import { ShotLightbox } from "@/components/ShotLightbox";
 
 export const dynamicParams = false;
@@ -56,8 +58,39 @@ export default async function WorkPage({
       ? featuredList[currentIndex + 1]
       : featuredList[0];
 
+  const site = "https://let.gowork.run";
+  const pageUrl = `${site}/work/${project.slug}/`;
+  const caseJsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      name: project.title,
+      headline: project.subtitle,
+      description: project.summary,
+      url: pageUrl,
+      inLanguage: "zh-TW",
+      image: project.images.map((src) => `${site}${src}`),
+      keywords: project.tags.join(", "),
+      creator: { "@type": "Person", name: "WANG", url: `${site}/` },
+      ...(project.liveUrl ? { sameAs: project.liveUrl } : {}),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "首頁", item: `${site}/` },
+        { "@type": "ListItem", position: 2, name: "作品庫", item: `${site}/#works` },
+        { "@type": "ListItem", position: 3, name: project.title, item: pageUrl },
+      ],
+    },
+  ];
+
   return (
     <div className="site-shell">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(caseJsonLd).replace(/</g, "\\u003c") }}
+      />
       <Navbar />
 
       <main id="main-content" className="site-container work-page">
@@ -131,13 +164,22 @@ export default async function WorkPage({
                   直接操作概念 Demo <ArrowDown size={16} />
                 </a>
               )}
+              {project.slug === "ai-music-mv" && (
+                <a className="button button--primary" href="#film">
+                  直接觀看 MV <ArrowDown size={16} />
+                </a>
+              )}
             </div>
           </aside>
         </header>
 
-        {/* 後台整合案例的截圖與說明都在自訂版面中，不再重複一般圖集與筆記 */}
+        {/* 這些案例的圖片與說明都在自訂版面中，不再重複一般圖集與筆記 */}
         {project.slug === "admin-systems" ? (
           <AdminSystemsCase />
+        ) : project.slug === "peta-days" ? (
+          <PetaDaysCase />
+        ) : project.slug === "ai-music-mv" ? (
+          <WeiguangMvCase />
         ) : (
         <>
         {/* Gallery */}

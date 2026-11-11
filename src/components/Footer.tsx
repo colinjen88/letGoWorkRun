@@ -80,6 +80,7 @@ export function Footer() {
             © {new Date().getFullYear()} WANG • Crafted with Next.js &amp; Design Care. All works protected.
           </p>
           <div className="footer-tags">
+            <a href="/dark.html" className="footer-legacy-link">舊版作品集</a>
             <span>#UI/UX</span>
             <span>#MotionDesign</span>
             <span>#CreativeFrontend</span>

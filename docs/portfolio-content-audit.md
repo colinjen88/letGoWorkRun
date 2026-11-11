@@ -15,6 +15,8 @@
 | `flashrate` | `let/index.html`、`public/assets/flashrate.jpg`、https://goldlab.cloud/ | 待本人確認 | 保留多來源報價展示；已移除「15 個資料源」的未核實數字。 |
 | `shiny-jewelry` | `let/index.html`、`public/assets/shiny_jewelry_preview.webp`、https://my8020.cloud/ | 待本人確認 | 圖片和入口存在。 |
 | `alloy-team` | `let/index.html`、`public/assets/alloy*.jpg`、https://alloy.team/ | 待本人確認 | 圖片和入口存在。 |
+| `peta-days` | `src/components/PetaDaysCase.tsx`、`public/assets/petadays/`；來源 `C:\Users\colin\Desktop\LINEMoney`、https://peta-days.com/ | 2026-11-09 本機新增；2026-11-11 本人看過畫面後確認定稿；尚未部署 | 角色數取自 `Y1_管理文件/營運管理/10_現況總覽.md`（2026-11-08）；16 個 LINE 公開商店頁與官網於 2026-11-09 確認可開啟，384 張為 `商品狀態索引.json` 中這 16 款的張數合計。官網 49 頁、PageSpeed 與對比掃描為 `D2_網站/peta-days-site/README.md` 當日紀錄，引用時須保留日期；貼圖總覽須使用上架版，不用提案板。不列銷售數字；不得描述為手繪。展示角色限官網已公開者與迷豆兒；其餘角色與特輯不列入。 |
+| `ai-music-mv` | `src/components/WeiguangMvCase.tsx`、`public/assets/weiguang/`；來源 `C:\git_work\SONG\作品\微光的時刻`、`C:\git_work\SONG\作品\太陽的面容`、https://youtu.be/Y3V4uC96kFQ、https://youtu.be/yoBgBemWTI0 | 2026-11-09 本機新增；2026-11-11 本人看過畫面後確認定稿；尚未部署 | 用量取自 `03_剪輯素材/生成紀錄.csv`，格式比對取自 S02 發布紀錄。作曲與演唱為 Suno 生成，不得列為本人創作。《太陽的面容》的文案只談歌曲與影像製作，須遵守該曲發布清單的隱私注意事項。 |
 | `motion-collection` | `let/index.html`、`public/assets/motion_preview.webp`、YouTube URL | 待本人確認 | 影片及封面入口存在。 |
 | `graphic-portfolio` | `let/index.html`、`public/assets/Graphic_Portfolio.pdf` | 已核對素材 | PDF 與封面存在。 |
 | `seo-strategy` | `let/index.html`、`public/assets/seo_preview.webp`、https://seo.gowork.run/ | 待本人確認 | 已移除「取得排名」與 AI 引用等未提供數據支持的說法。 |

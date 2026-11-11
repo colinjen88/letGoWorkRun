@@ -47,7 +47,7 @@ export const personalInfo = {
   statusDescription:
     "專精 UI/UX 介面設計、前台與後台全端程式功能建置、動效微互動 (Lottie/SVGA) 及 SEO 部署上線，具備獨立負責產品從零到一完整落地能力。",
   aboutParagraphs: [
-    "從 Flash / Animate 動態設計出發，淬鍊出對動態細節與微互動節奏的敏銳度。以 Figma 梳理使用者體驗與介面架構，並能依專案需求進行精準的技術選型，靈活運用 Next.js、Nuxt.js、TypeScript 與 Tailwind CSS 高品質實現現代 Web 應用。",
+    "從 Flash / Animate 動態設計出發，長期處理動態細節與微互動節奏。以 Figma 整理使用者流程與介面架構，再依專案需求選用 Next.js、Nuxt.js、TypeScript 與 Tailwind CSS 實作。",
     "從設計系統、響應式排版到互動狀態，依真實內容與裝置條件逐一處理，讓設計稿能穩定落地。",
   ],
   craftTokens: [
@@ -136,16 +136,16 @@ export const projects: Project[] = [
     details: {
       role: "UI/UX 介面設計、前台與內容管理後台程式功能建置、SEO 優化至獨立部署上線",
       challenge:
-        "以品牌作品與服務資訊建立沉浸式瀏覽動線，並從零建置前台視覺、高擴充性內容管理後台（課程/文章）與 SEO 架構。",
+        "為花藝品牌整理作品、課程與服務資訊的瀏覽動線，並建置前台、課程／文章內容管理後台與 SEO 架構。",
       approach: [
-        "主導全站 UI/UX 介面規劃，以簡約留白與細緻字體層級襯托花藝作品張力，完成全站 RWD 響應式排版。",
+        "負責全站 UI/UX 介面規劃，以留白與字體層級襯托花藝作品，完成全站 RWD 響應式排版。",
         "負責前台互動畫面與內容管理後台（CMS）之程式功能建置，實現課程維護、文章發布與即時資料管理。",
         "規劃 Technical SEO 結構化資料、關鍵字與語意化標籤，並完成雲端伺服器環境配置與正式部署上線。",
       ],
       highlights: [
-        "品牌官網前台與內容管理後台系統之端到端完整建置",
-        "課程介紹、文章發布與 SEO 系統之架構規劃與功能實作",
-        "跨裝置 RWD 排版、細膩微互動回饋與伺服器部署上線",
+        "品牌官網前台與內容管理後台",
+        "課程介紹、文章發布與 SEO 架構",
+        "跨裝置 RWD 排版、微互動回饋與伺服器部署",
       ],
     },
   },
@@ -182,18 +182,18 @@ export const projects: Project[] = [
     details: {
       role: "UI/UX 視覺與介面設計、前台線上預約流程與後台門市管理系統程式功能建置、微互動動效整合至網站部署上線",
       challenge:
-        "以古典東方美學重塑品牌官網門面，並將繁雜的選單預約流程與門市排班後台轉化為高效率的前後端功能系統。",
+        "以古典東方風格試做品牌官網，並把多步驟的預約流程與門市排班整理成前台預約與後台管理兩套功能。",
       approach: [
-        "負責主官網整體視覺風格提案與 UI/UX 介面設計，打造具東方沉浸感的養生文化與知識專欄體驗。",
-        "完整規劃並建置前台步驟化線上預約功能，結合細膩微動態回饋提升操作流暢度與轉換率。",
+        "負責主官網視覺風格提案與 UI/UX 介面設計，包含養生知識專欄。",
+        "規劃並建置前台步驟化線上預約功能，每個步驟都有明確的進度與操作回饋。",
         "實作後台總覽儀表板、門市管理與師傅排班管理等系統功能與資料處理流程。",
         "建構專屬開發展示站（Showcase），實踐 RWD 跨裝置自適應測試與伺服器部署上線。",
       ],
       highlights: [
-        "古典東方品牌主官網、知識專欄與步驟化線上預約系統功能建置",
-        "後台門市管理、師傅排班調度與總覽儀表板系統功能落地實作",
-        "RWD 全裝置自適應排版、細膩微動態回饋與互動體驗調優",
-        "前後台完整功能架構與獨立開發 Showcase 部署上線",
+        "古典東方風格主官網、知識專欄與步驟化線上預約",
+        "後台門市管理、師傅排班與總覽儀表板",
+        "RWD 跨裝置排版與微動態回饋",
+        "前後台功能架構與開發歷程 Showcase",
       ],
     },
   },
@@ -201,11 +201,11 @@ export const projects: Project[] = [
     id: "goodeats",
     slug: "goodeats",
     title: "穀意 GoodEats (官網 & 開發介紹)",
-    subtitle: "品牌沉浸式官網與前/後台 Showcase 開發歷程",
+    subtitle: "影片背景品牌官網與前/後台 Showcase 開發歷程",
     categories: ["dynamic-web"],
     summary:
-      "品牌官網沉浸式視覺設計 • 動態特效與影片整合 • Showcase 前後台開發歷程與系統建置",
-    tags: ["沉浸式體驗", "動態設計", "Showcase 雙入口", "創意版型"],
+      "品牌官網視覺設計 • 動態特效與影片整合 • Showcase 前後台開發歷程與系統建置",
+    tags: ["影片背景", "動態設計", "Showcase 雙入口", "創意版型"],
     liveUrl: "https://goodeats.asia/",
     showcaseUrl: "https://gowork.run/showGoodEats/",
     featured: true,
@@ -220,15 +220,15 @@ export const projects: Project[] = [
     details: {
       role: "品牌官網與 Showcase 之 UI/UX 設計、動態視覺特效、前後台程式功能建置、SEO 優化至獨立部署上線",
       challenge:
-        "融合大幅影片背景、品牌故事與動態節奏打造沉浸式體驗，並同步規劃後台管理與 Showcase 開發歷程展示。",
+        "以全版影片背景、品牌故事與動態節奏呈現食品品牌，並同步規劃後台管理與 Showcase 開發歷程展示。",
       approach: [
-        "全盤主導品牌官網視覺定位、UI/UX 介面設計與動態腳本，調校影片背景與時間差動態細節。",
-        "獨立建構專屬 Showcase 站點，完整開發前台形象視覺、後台管理規劃與互動系統功能。",
+        "負責品牌官網視覺定位、UI/UX 介面設計與動態腳本，調整影片背景與時間差動態細節。",
+        "另建 Showcase 站點，展示前台形象視覺、後台管理規劃與互動功能的開發歷程。",
         "實作跨裝置 RWD 自適應架構與載入效能調優，落實 Technical SEO 與伺服器獨立部署上線。",
       ],
       highlights: [
-        "品牌官網主站與前後台開發歷程 Showcase 雙站點全功能建置",
-        "沉浸式背景影片、微互動動效與視覺節奏之精準調校",
+        "品牌官網主站與前後台開發歷程 Showcase 兩個站點",
+        "背景影片、微互動動效與視覺節奏",
         "後台管理功能架構規劃、RWD 自適應排版與獨立部署上線",
       ],
     },
@@ -289,6 +289,44 @@ export const projects: Project[] = [
     imageCaptions: ["多來源報價整理介面"],
   },
   {
+    id: "peta-days",
+    slug: "peta-days",
+    title: "貼貼日和 Peta Days",
+    subtitle: "角色品牌：LINE 貼圖、品牌官網與程式動畫",
+    categories: ["dynamic-web", "graphic-design", "motion-design"],
+    summary:
+      "16 款 LINE 貼圖公開上架 • 49 頁品牌官網與換頁動效 • Motion Canvas 程式動畫 • AI 生成角色的一致性與版本管理",
+    tags: ["品牌官網", "LINE 貼圖", "Motion Canvas", "AI 協作流程"],
+    liveUrl: "https://peta-days.com/",
+    images: [
+      "/assets/petadays/petadays_cover.webp",
+      "/assets/petadays/site_home.webp",
+      "/assets/petadays/set_red_16.webp",
+      "/assets/petadays/set_midoar_24.webp",
+    ],
+    imageCaptions: [
+      "貼貼日和各角色的 LINE 貼圖",
+      "貼貼日和品牌官網首頁",
+      "搶戲小紅椅上架版 16 款總覽",
+      "迷豆兒 24 款動態貼圖排序",
+    ],
+    details: {
+      role: "角色企劃、設計方向、選圖與文案定稿、驗收與上架營運；圖像由 AI 工具生成，官網與動畫程式與 AI 協作完成",
+      challenge:
+        "一個人同時經營多個角色與多款商品時，要讓 AI 生成的角色維持一致，並把品牌延伸到貼圖、官網與短影音。",
+      approach: [
+        "規劃品牌官網的動線、換頁回饋與繪本式閱讀，並處理效能與無障礙。",
+        "以 Motion Canvas 與 GLSL 製作角色表演，以程式補間符合 LINE 動態貼圖規格。",
+        "以識別卡、凍結參考圖、八項檢查與 SHA 鎖定管理角色與送審版本。",
+      ],
+      highlights: [
+        "LINE 靜態與動態貼圖的公開商店頁",
+        "品牌官網與程式動畫短片",
+        "角色一致性與版本管理方法",
+      ],
+    },
+  },
+  {
     id: "shiny-jewelry",
     title: "形象官網一頁式網站（主頁設計）",
     subtitle: "璀璨珠寶 Shiny Jewelry 一頁式形象品牌",
@@ -319,11 +357,45 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "ai-music-mv",
+    slug: "ai-music-mv",
+    title: "AI 音樂 MV 製作",
+    subtitle: "《微光的時刻》《太陽的面容》的分鏡、影像規則與發布驗證",
+    categories: ["motion-design"],
+    summary:
+      "44 鏡分鏡與影像規則 • 依成本調度 AI 靜圖、影片與對嘴 • 細剪與角落動畫 • 2K 重傳驗證（作曲與演唱為 AI 生成）",
+    tags: ["MV 製作", "AI 影像", "分鏡", "發布驗證"],
+    videoUrl: "https://www.youtube.com/embed/Y3V4uC96kFQ?autoplay=1",
+    images: [
+      "/assets/weiguang/weiguang_cover.webp",
+      "/assets/weiguang/taiyang_cover.webp",
+      "/assets/weiguang/frame_pillbox.webp",
+      "/assets/weiguang/frame_palm.webp",
+    ],
+    imageCaptions: [
+      "《微光的時刻》YouTube 縮圖",
+      "《太陽的面容》YouTube 縮圖",
+      "《微光的時刻》全片母題：藥盒上的光",
+      "《微光的時刻》關鍵格：掌心接光",
+    ],
+    details: {
+      role: "製作、分鏡與選材（與 Claude 協作）、作詞共筆、細剪與發布驗證；作曲、演唱及影像素材由 AI 生成",
+      challenge:
+        "只用 AI 素材完成情緒連貫的 MV，同時控制生成成本與畫面穩定度。",
+      approach: [
+        "訂定光線方向、道具與人物呈現的規則，讓不同工具的素材能剪在一起。",
+        "依成本由低到高調度靜圖、對嘴與 AI 影片，並記錄每次生成的點數與採用結果。",
+        "上傳後比對實際串流格式，發現畫質問題後以 2K 重新上傳。",
+      ],
+      highlights: ["《微光的時刻》4 分 42 秒 2K MV", "《太陽的面容》3 分 25 秒 MV", "44 鏡分鏡與影像規則", "AI 工具用量紀錄與發布驗證"],
+    },
+  },
+  {
     id: "motion-collection",
     title: "Motion - Animation Collection",
     subtitle: "SVGA 直播動效、廣告 Banner 與動態人物",
     categories: ["motion-design"],
-    summary: "SVGA直播動效設計、廣告banner動畫、動態人物，多年 Flash/Animate 深厚動效背景",
+    summary: "SVGA 直播動效設計、廣告 Banner 動畫、動態人物，出自多年 Flash／Animate 動效經驗",
     tags: ["SVGA 動效", "直播動態", "Banner 動畫", "YouTube Showreel"],
     liveUrl: "https://www.youtube.com/watch?v=V_f5eONwmPo",
     videoUrl: "https://www.youtube.com/embed/V_f5eONwmPo?autoplay=1",
@@ -348,7 +420,7 @@ export const projects: Project[] = [
     title: "SEO內容行銷",
     subtitle: "關鍵字與內容規劃展示",
     categories: ["seo"],
-    summary: "市場競爭受眾與關鍵字深度研究 • 內容策略與全站資訊架構規劃 • Technical SEO 與成效分析",
+    summary: "競爭對手、受眾與關鍵字研究 • 內容策略與全站資訊架構規劃 • Technical SEO",
     tags: ["SEO 關鍵字", "內容規劃", "內容行銷", "網站架構"],
     liveUrl: "https://seo.gowork.run/",
     images: ["/assets/seo_preview.webp"],

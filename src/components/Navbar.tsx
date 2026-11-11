@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowUpRight, ArrowLeft, Moon } from "lucide-react";
+import { Menu, X, ArrowUpRight, ArrowLeft } from "lucide-react";
 import { personalInfo } from "@/data/projects";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const navItems = [
   { label: "關於我", id: "about", href: "/#about" },
@@ -109,17 +110,7 @@ export function Navbar() {
           )}
 
           <div className="nav-actions">
-            {/* 案例頁不放切換舊版的入口，避免讀到一半被帶離 */}
-            {!isCaseStudy && (
-              <a
-                href="/dark.html"
-                className="theme-toggle-btn"
-                aria-label="切換至原版深色作品集"
-                title="切換至原版深色作品集"
-              >
-                <Moon size={16} />
-              </a>
-            )}
+            <ThemeToggle />
 
             {isCaseStudy ? (
               <Link href="/#works" prefetch={false} className="button button--secondary button--sm nav-case-return">
@@ -159,15 +150,7 @@ export function Navbar() {
               </Link>
             ))}
             <div className="nav-menu-footer">
-              {!isCaseStudy && (
-                <a
-                  href="/dark.html"
-                  className="mobile-theme-btn"
-                >
-                  <Moon size={15} />
-                  <span>切換至原版深色作品集</span>
-                </a>
-              )}
+              <ThemeToggle variant="menu" />
               <a href={isCaseStudy ? "#contact" : "/#contact"} onClick={closeMenu} className="mobile-cta-link">
                 聯絡我
               </a>
