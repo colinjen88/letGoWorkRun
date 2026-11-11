@@ -62,69 +62,19 @@ export const projects: Project[] = [
   {
     id: "elephant-clinic",
     slug: "elephant-clinic",
-    title: "大象泌尿科診所官網優化",
+    title: "網站效能、SEO及版面優化",
     subtitle: "改善手機首屏載入與搜尋索引，重新設計從衛教閱讀、療程探索到隱私預約的路徑。",
     categories: ["functional-web", "seo"],
     summary: "八種頁型的 Lighthouse 前後量測、Search Console 真實使用者資料、技術 SEO，以及內容整合與首屏導覽的兩組設計提案。",
+    featured: true,
     tags: ["Lighthouse", "技術 SEO", "UI/UX", "RWD"],
-    images: ["/assets/elephant-clinic/assets/ux-v3-desktop.webp"],
-    imageCaptions: ["性功能專區首屏設計原型"],
+    images: ["/assets/elephant-clinic/assets/perf-before-after.webp"],
+    imageCaptions: ["手機首頁 Lighthouse 優化前後對照：55 分到 94 分"],
     details: {
       role: "我獨立負責網站診斷、設計、實作與驗證，並以 Claude 與 Codex 輔助分析、開發與驗證。",
       challenge: "改善手機首屏的渲染延遲、搜尋索引訊號和療程探索動線。",
       approach: ["追蹤效能瓶頸、整理技術 SEO 訊號，並比較衛教內容整合與首屏導覽方案。"],
       highlights: ["八種 Lighthouse 前後量測、兩組各四款設計提案與發布驗證。"],
-    },
-  },
-  {
-    id: "admin-systems",
-    slug: "admin-systems",
-    title: "後台管理系統 設計規劃與開發整合",
-    subtitle: "以 GoldLab 編輯後台為主要案例，整理後台規劃方式與一個設備監控概念 Demo",
-    categories: ["functional-web"],
-    summary:
-      "GoldLab 編輯後台（文章管理、發布檢查、中英文版本流程、AI 內容審核）• 角色權限與資訊架構規劃 • 設備監控主控台概念 Demo",
-    tags: ["後台 UI/UX", "GoldLab 編輯後台", "審核與版本流程", "權限規劃 RBAC", "設計規範"],
-    featured: true,
-    images: [
-      "/assets/admin/admin_console_v2.webp",
-      "/assets/admin/goldlab_admin_dashboard.webp",
-      "/assets/admin/goldlab_admin_batch.webp",
-      "/assets/admin/goldlab_admin_editor.webp",
-      "/assets/admin/goldlab_admin_english.webp",
-      "/assets/admin/goldlab_admin_queue.webp",
-      "/assets/royaltouch/royal04.webp",
-      "/assets/zyfloral/zyfloral04.webp",
-      "/assets/royaltouch/royal05.webp",
-    ],
-    imageCaptions: [
-      "概念 Demo：設備監控主控台（模擬資料）",
-      "GoldLab 文章管理後台：統計卡片、狀態分頁、搜尋篩選與排序",
-      "GoldLab 批次操作：勾選多篇後浮出操作列，可發佈、轉草稿、排程、置頂或刪除",
-      "GoldLab 文章編輯器：SEO 摘要、Schema 描述、發布前檢查清單與可收合設定側欄",
-      "GoldLab 英文版管理：9 種流程狀態篩選、翻譯與 QA 狀態、來源一致性與上下架",
-      "GoldLab AI 草稿審核佇列：標示高敏感原因與使用模型，逐筆核准或退回",
-      "大內御指（試做）：預約總覽儀表板，KPI 卡片、營收趨勢與最新預約",
-      "植園花室：網站內容管理，草稿預覽、版本保留與備份匯出入",
-      "大內御指（試做）：依角色拆分的前台、管理後台與技師後台入口",
-    ],
-    details: {
-      role: "GoldLab 前後台、API 與部署的規劃與開發；其他後台的介面設計與前端開發；本頁概念 Demo 為個人練習作品",
-      challenge:
-        "以 GoldLab 編輯後台為主，整理不同作品中的後台經驗：從角色與任務出發規劃資訊架構，透過檢查、審核、版本與回復機制降低操作錯誤，並思考這些做法如何延伸到重視權限分層與追溯紀錄的製造現場。",
-      approach: [
-        "GoldLab：規劃並開發文章管理、編輯器、英文版管理與 AI 草稿審核等後台模組，並撰寫自動化測試。",
-        "為高風險操作加入確認與回復機制：發布前檢查、批次操作確認與失敗回報、回收桶保留、版本回復。",
-        "整理狀態標籤（圖示、文字與顏色）、表格密度、篩選列，以及載入、無資料、錯誤、無權限等狀態畫面。",
-        "以 React 製作設備監控主控台概念 Demo，呈現資料更新、角色權限、告警確認與操作紀錄。",
-      ],
-      highlights: [
-        "GoldLab 編輯後台主要模組說明",
-        "其他後台作品，以及既有經驗延伸到製造現場的參考整理",
-        "後台規劃時依序確認的項目",
-        "後台狀態與畫面的整理原則",
-        "可操作的設備監控主控台概念 Demo（模擬資料）",
-      ],
     },
   },
   {
@@ -137,7 +87,6 @@ export const projects: Project[] = [
       "品牌官網與內容管理後台建置 • 課程/文章管理系統 • SEO 優化架構 • RWD 響應式開發",
     tags: ["Brand Web", "CMS 後台", "SEO 文章系統", "RWD"],
     liveUrl: "https://zyfloral.com/",
-    featured: true,
     images: [
       "/assets/zyfloral/zyfloral01.webp",
       "/assets/zyfloral/zyfloral02.webp",
@@ -177,7 +126,6 @@ export const projects: Project[] = [
     tags: ["古風官網", "預約系統", "後台管理", "微互動", "RWD 開發歷程"],
     liveUrl: "https://royal.gowork.run/main-site/index.html",
     showcaseUrl: "https://royal.gowork.run/showcase",
-    featured: true,
     images: [
       "/assets/royaltouch/royal_main01.webp",
       "/assets/royaltouch/royal_main02.webp",
@@ -295,6 +243,56 @@ export const projects: Project[] = [
     },
   },
   {
+    id: "admin-systems",
+    slug: "admin-systems",
+    title: "後台管理系統 設計規劃與開發整合",
+    subtitle: "以 GoldLab 編輯後台為主要案例，整理後台規劃方式與一個設備監控概念 Demo",
+    categories: ["functional-web"],
+    summary:
+      "GoldLab 編輯後台（文章管理、發布檢查、中英文版本流程、AI 內容審核）• 角色權限與資訊架構規劃 • 設備監控主控台概念 Demo",
+    tags: ["後台 UI/UX", "GoldLab 編輯後台", "審核與版本流程", "權限規劃 RBAC", "設計規範"],
+    images: [
+      "/assets/admin/admin_console_v2.webp",
+      "/assets/admin/goldlab_admin_dashboard.webp",
+      "/assets/admin/goldlab_admin_batch.webp",
+      "/assets/admin/goldlab_admin_editor.webp",
+      "/assets/admin/goldlab_admin_english.webp",
+      "/assets/admin/goldlab_admin_queue.webp",
+      "/assets/royaltouch/royal04.webp",
+      "/assets/zyfloral/zyfloral04.webp",
+      "/assets/royaltouch/royal05.webp",
+    ],
+    imageCaptions: [
+      "概念 Demo：設備監控主控台（模擬資料）",
+      "GoldLab 文章管理後台：統計卡片、狀態分頁、搜尋篩選與排序",
+      "GoldLab 批次操作：勾選多篇後浮出操作列，可發佈、轉草稿、排程、置頂或刪除",
+      "GoldLab 文章編輯器：SEO 摘要、Schema 描述、發布前檢查清單與可收合設定側欄",
+      "GoldLab 英文版管理：9 種流程狀態篩選、翻譯與 QA 狀態、來源一致性與上下架",
+      "GoldLab AI 草稿審核佇列：標示高敏感原因與使用模型，逐筆核准或退回",
+      "大內御指（試做）：預約總覽儀表板，KPI 卡片、營收趨勢與最新預約",
+      "植園花室：網站內容管理，草稿預覽、版本保留與備份匯出入",
+      "大內御指（試做）：依角色拆分的前台、管理後台與技師後台入口",
+    ],
+    details: {
+      role: "GoldLab 前後台、API 與部署的規劃與開發；其他後台的介面設計與前端開發；本頁概念 Demo 為個人練習作品",
+      challenge:
+        "以 GoldLab 編輯後台為主，整理不同作品中的後台經驗：從角色與任務出發規劃資訊架構，透過檢查、審核、版本與回復機制降低操作錯誤，並思考這些做法如何延伸到重視權限分層與追溯紀錄的製造現場。",
+      approach: [
+        "GoldLab：規劃並開發文章管理、編輯器、英文版管理與 AI 草稿審核等後台模組，並撰寫自動化測試。",
+        "為高風險操作加入確認與回復機制：發布前檢查、批次操作確認與失敗回報、回收桶保留、版本回復。",
+        "整理狀態標籤（圖示、文字與顏色）、表格密度、篩選列，以及載入、無資料、錯誤、無權限等狀態畫面。",
+        "以 React 製作設備監控主控台概念 Demo，呈現資料更新、角色權限、告警確認與操作紀錄。",
+      ],
+      highlights: [
+        "GoldLab 編輯後台主要模組說明",
+        "其他後台作品，以及既有經驗延伸到製造現場的參考整理",
+        "後台規劃時依序確認的項目",
+        "後台狀態與畫面的整理原則",
+        "可操作的設備監控主控台概念 Demo（模擬資料）",
+      ],
+    },
+  },
+  {
     id: "flashrate",
     title: "聚合免費報價來源",
     subtitle: "分散式即時市場行情數據整合",
@@ -308,11 +306,12 @@ export const projects: Project[] = [
   {
     id: "peta-days",
     slug: "peta-days",
-    title: "貼貼日和 Peta Days",
+    title: "角色設計、LINE貼圖製作",
     subtitle: "角色品牌：LINE 貼圖、品牌官網與程式動畫",
     categories: ["dynamic-web", "graphic-design", "motion-design"],
     summary:
       "16 款 LINE 貼圖公開上架 • 49 頁品牌官網與換頁動效 • Motion Canvas 程式動畫 • AI 生成角色的一致性與版本管理",
+    featured: true,
     tags: ["品牌官網", "LINE 貼圖", "Motion Canvas", "AI 協作流程"],
     liveUrl: "https://peta-days.com/",
     images: [
@@ -460,6 +459,13 @@ export function getProjectBySlug(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
 }
 
+// 首頁精選案例的顯示順序；名單本身以各作品的 featured 旗標為準。
+const featuredOrder = ["goldlab", "goodeats", "elephant-clinic", "peta-days"];
+
 export function getFeaturedProjects(): Project[] {
-  return projects.filter((p) => p.featured);
+  const rank = (p: Project) => {
+    const index = featuredOrder.indexOf(p.id);
+    return index === -1 ? featuredOrder.length : index;
+  };
+  return projects.filter((p) => p.featured).sort((a, b) => rank(a) - rank(b));
 }
