@@ -60,6 +60,23 @@ export const personalInfo = {
 
 export const projects: Project[] = [
   {
+    id: "elephant-clinic",
+    slug: "elephant-clinic",
+    title: "大象泌尿科診所官網優化",
+    subtitle: "改善手機首屏載入與搜尋索引，重新設計從衛教閱讀、療程探索到隱私預約的路徑。",
+    categories: ["functional-web", "seo"],
+    summary: "八種頁型的 Lighthouse 前後量測、Search Console 真實使用者資料、技術 SEO，以及內容整合與首屏導覽的兩組設計提案。",
+    tags: ["Lighthouse", "技術 SEO", "UI/UX", "RWD"],
+    images: ["/assets/elephant-clinic/assets/ux-v3-desktop.webp"],
+    imageCaptions: ["性功能專區首屏設計原型"],
+    details: {
+      role: "我獨立負責網站診斷、設計、實作與驗證，並以 Claude 與 Codex 輔助分析、開發與驗證。",
+      challenge: "改善手機首屏的渲染延遲、搜尋索引訊號和療程探索動線。",
+      approach: ["追蹤效能瓶頸、整理技術 SEO 訊號，並比較衛教內容整合與首屏導覽方案。"],
+      highlights: ["八種 Lighthouse 前後量測、兩組各四款設計提案與發布驗證。"],
+    },
+  },
+  {
     id: "admin-systems",
     slug: "admin-systems",
     title: "後台管理系統 設計規劃與開發整合",

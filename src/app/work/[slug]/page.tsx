@@ -7,6 +7,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/BackToTop";
 import { AdminSystemsCase } from "@/components/AdminSystemsCase";
+import { ElephantClinicCase } from "@/components/ElephantClinicCase";
 import { PetaDaysCase } from "@/components/PetaDaysCase";
 import { WeiguangMvCase } from "@/components/WeiguangMvCase";
 import { ShotLightbox } from "@/components/ShotLightbox";
@@ -176,6 +177,8 @@ export default async function WorkPage({
         {/* 這些案例的圖片與說明都在自訂版面中，不再重複一般圖集與筆記 */}
         {project.slug === "admin-systems" ? (
           <AdminSystemsCase />
+        ) : project.slug === "elephant-clinic" ? (
+          <ElephantClinicCase />
         ) : project.slug === "peta-days" ? (
           <PetaDaysCase />
         ) : project.slug === "ai-music-mv" ? (
