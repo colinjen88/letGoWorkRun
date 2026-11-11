@@ -2,7 +2,7 @@
 
 - **專案名稱**: letGoWorkRun — WANG's Portfolio (let.gowork.run)
 - **當前位置**: `c:\git_work\letGoWorkRun\let\`
-- **目標伺服器**: 72.62.66.151 (VPS)
+- **目標伺服器**: <VPS_IP>（不放公開 repo） (VPS)
 - **狀態**: ✅ 已成功部署
 
 > 2026-10-22：專案與 GitHub 倉庫已更名為 letGoWorkRun。本文件中 VPS 上的 `/var/www/html/worki` 是伺服器實際路徑，**未**隨之更名，請勿單獨修改。
@@ -23,7 +23,7 @@
 ### 1. 更新 VPS 程式碼
 ```bash
 # 登入 VPS
-ssh root@72.62.66.151
+ssh root@<VPS_IP>
 
 # 進入專案目錄
 cd /var/www/html/worki
@@ -59,7 +59,7 @@ server {
 1.  **Cloudflare DNS**:
     - Type: `A`
     - Name: `let`
-    - Content: `72.62.66.151`
+    - Content: `<VPS_IP>（不放公開 repo）`
     - Proxy Status: **Proxied (橘色雲朵)**
 
 2.  **Cloudflare SSL/TLS**:

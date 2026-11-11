@@ -57,7 +57,7 @@
 - 本機分支：`master`，提交 `5786a84`；研究開始時工作目錄乾淨。
 - 已抓取的遠端基準：`origin/master`，提交 `e62be5f`，提交日期 2026-07-22；本機落後 15 個提交。
 - 線上看得到植園花室、alloy.team、報價看板及 WebP 圖片等遠端近期特徵；**沒有伺服器提交識別，不能證明整個部署與某提交逐檔完全相同**。
-- 最新遠端 `let/deploy_vps_let.ps1` 的 IP 是 `72.62.66.151`。前一輪看到的 `145.79.28.71` 是舊本機腳本；不應據此認定新版部署文件必然指錯主機。
+- 最新遠端 `let/deploy_vps_let.ps1` 的 IP 是 `（VPS IP，見本機 `let/deploy_vps_let.ps1`，不放公開 repo）`。前一輪看到的 `（舊主機 IP）` 是舊本機腳本；不應據此認定新版部署文件必然指錯主機。
 - 公開回應經 Cloudflare，並包含 `Via: 1.1 Caddy`。這只證明回應鏈上的訊號，不能直接推出 origin 主機、Nginx 是否仍在運作，或 Cloudflare 的 SSL 模式。
 
 原始碼證據以 [遠端基準樹](https://github.com/colinjen88/letGoWorkRun/tree/e62be5f3bc98cb37ea025488764e48c3fa300463) 為準；不可把本機舊版行號當成最新版行號。

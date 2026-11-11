@@ -6,3 +6,8 @@ out/
 *.tsbuildinfo
 .env*
 !.env.example
+
+# 本機個人設定與含主機位址的部署檔，不放進公開 repo
+.claude/settings.local.json
+.antigravity
+let/deploy_vps_let.ps1
