@@ -22,5 +22,6 @@
 | 精選卡片封面修正（2026-10-29） | 通過 | 提交 `c788c1b` 已部署；首頁後台案例卡片改用 `admin_console_v2_card_v3.webp`，主控台完整顯示不裁切；主要頁面 HTTP 200、未知路徑 404、無主控台錯誤。回復產物：`/var/www/html/worki-out-backup-20261029T004542Z-admin-card`。 |
 | 新案例與第一批優化（2026-11-11） | 通過 | 提交 `f1a3894` 已部署到新主機：新增 `/work/peta-days/`、`/work/ai-music-mv/`，深淺色切換、專屬分享圖、apple-touch-icon、案例頁結構化資料、手機版面視窗溢出修正。首頁、7 個案例頁、`dark.html`、sitemap、robots、分享圖為 HTTP 200，未知路徑 404；正式站切換深色正常、無主控台錯誤、無破圖。回復產物：`/var/www/html/worki-out-backup-20261111T124140Z-f1a3894`。 |
 | 大象診所案例（2026-11-12） | 通過 | 提交 `41de73b` 已部署：新增 `/work/elephant-clinic/` 與 0907 完整報告；真人臉部與瀏覽器頭像已馬賽克（正式站封面圖與本機遮蔽版雜湊相同）。首頁、3 個案例頁、完整報告、sitemap、robots、`dark.html` 為 HTTP 200，未知路徑 404；案例頁 17 張圖無破圖、無水平捲動、無主控台錯誤。回復產物：`/var/www/html/worki-out-backup-20261111T161205Z-29fbb02`。 |
+| 精選案例調整（2026-11-12） | 通過 | 提交 `fae4071` 已部署：精選改為 GoldLab、GoodEats、大象診所（網站效能、SEO及版面優化）、貼貼日和（角色設計、LINE貼圖製作）四張同尺寸卡片，大象改用 Before／After 縮圖；植園花室、古風官網、後台案例回到作品庫。首頁精選順序正確；首頁、5 個案例頁、新縮圖、sitemap、robots、`dark.html` 為 HTTP 200，未知路徑 404。回復產物：`/var/www/html/worki-out-backup-20261111T171839Z-5dd63aa`。 |
 
 尚未執行：實機 iOS Safari、螢幕閱讀器抽查、圖片最重案例頁的 Lighthouse 三次中位數，以及全部外站入口的逐項可用性檢查。這些項目不可視為已通過。
